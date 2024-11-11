@@ -46,11 +46,18 @@
         decimal zahirahScore= zahirahSum / (decimal) currentAssignments;
         decimal jeongScore= jeongSum / (decimal) currentAssignments;
 
-        Console.WriteLine("Score:");
-        Console.WriteLine($"{"Sophia:",10} {sophiaScore,4} {getGrade(sophiaScore)}");
-        Console.WriteLine($"{"Nicolas:",10} {nicolasScore,4} {getGrade(nicolasScore)}");
-        Console.WriteLine($"{"Zahirah:",10} {zahirahScore,4} {getGrade(zahirahScore)}");
-        Console.WriteLine($"{"Jeong:",10} {jeongScore,4} {getGrade(jeongScore)}");
+
+        Console.WriteLine("Student\t\tGrade\n");
+        Console.WriteLine("Sophia:\t\t" + sophiaScore + "\tA");
+        Console.WriteLine("Nicolas:\t" + nicolasScore + "\tB");
+        Console.WriteLine("Zahirah:\t" + zahirahScore + "\tB");
+        Console.WriteLine("Jeong:\t\t" + jeongScore + "\tA");
+
+        //Console.WriteLine("Score:");
+        //Console.WriteLine($"{"Sophia:",10} {sophiaScore,4} {getGrade(sophiaScore)}");
+        //Console.WriteLine($"{"Nicolas:",10} {nicolasScore,4} {getGrade(nicolasScore)}");
+        //Console.WriteLine($"{"Zahirah:",10} {zahirahScore,4} {getGrade(zahirahScore)}");
+        //Console.WriteLine($"{"Jeong:",10} {jeongScore,4} {getGrade(jeongScore)}");
         //local function inside of Main
         string getGrade(decimal score) {
             return score switch

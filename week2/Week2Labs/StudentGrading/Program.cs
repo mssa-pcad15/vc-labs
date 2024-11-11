@@ -47,9 +47,23 @@
         decimal jeongScore= jeongSum / (decimal) currentAssignments;
 
         Console.WriteLine("Score:");
-        Console.WriteLine($"{"Sophia:",10} {sophiaScore,4} {"A"}");
-        Console.WriteLine($"{"Nicolas:",10} {nicolasScore,4} {"B"}");
-        Console.WriteLine($"{"Zahirah:",10} {zahirahScore,4} {"B"}");
-        Console.WriteLine($"{"Jeong:",10} {jeongScore,4} {"A"}");
+        Console.WriteLine($"{"Sophia:",10} {sophiaScore,4} {getGrade(sophiaScore)}");
+        Console.WriteLine($"{"Nicolas:",10} {nicolasScore,4} {getGrade(nicolasScore)}");
+        Console.WriteLine($"{"Zahirah:",10} {zahirahScore,4} {getGrade(zahirahScore)}");
+        Console.WriteLine($"{"Jeong:",10} {jeongScore,4} {getGrade(jeongScore)}");
+        //local function inside of Main
+        string getGrade(decimal score) {
+            return score switch
+            {
+                (>= 97) and (<= 100) => "A+",
+                (>= 93) and (<= 96) => "A",
+                (>= 90) and (<= 92) => "A-",
+                (>= 87) and (<= 89) => "B+",
+                (>= 83) and (<= 86) => "B"
+            };
+
+        }
     }
+
+   
 }

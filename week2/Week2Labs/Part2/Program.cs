@@ -13,7 +13,103 @@ namespace Part2
             //CallMethodChallenge5();
             //Exercise If and Else
             //DoubleTripleDiceRoll();
+            //PrintSubsExpirationDiscount();
+            //ArrayAndForeachLoop();
 
+            string[] orders = ["B123",
+                                "C234",
+                                "A345",
+                                "C15",
+                                "B177",
+                                "G3003",
+                                "C235",
+                                "B179"];
+
+            foreach (string order in orders) {
+                if (order.StartsWith("B")) {
+                    Console.WriteLine(order);
+                }
+            }
+
+        }
+
+        private static void ArrayAndForeachLoop()
+        {
+            string[] fraudulentOrderIDs = new string[3];
+
+            fraudulentOrderIDs[0] = "A123";
+            fraudulentOrderIDs[1] = "B456";
+            fraudulentOrderIDs[2] = "C789";
+
+            Console.WriteLine($"First: {fraudulentOrderIDs[0]}");
+            Console.WriteLine($"Second: {fraudulentOrderIDs[1]}");
+            Console.WriteLine($"Third: {fraudulentOrderIDs[2]}");
+
+            fraudulentOrderIDs[0] = "F000"; //change the value
+
+            Console.WriteLine($"Reassign First: {fraudulentOrderIDs[0]}");
+
+            //Collection Initializer
+            string[] fraudulentOrderIDs2 = ["A123", "B456", "A789",];
+
+            Console.WriteLine($"First: {fraudulentOrderIDs2[0]}");
+            Console.WriteLine($"Second: {fraudulentOrderIDs2[1]}");
+            Console.WriteLine($"Third: {fraudulentOrderIDs2[2]}");
+
+            fraudulentOrderIDs2[0] = "F000"; //change the value
+
+            Console.WriteLine($"Reassign First: {fraudulentOrderIDs[0]}");
+
+
+            //Array is the class
+            // 2 static methods?
+            Array.Sort(fraudulentOrderIDs); // sort is static member of Array Class
+            int idx = Array.IndexOf(fraudulentOrderIDs2, "B456DS"); //index returns the position of element to search for, -1 if not found
+
+            Console.WriteLine($"B456 is found at index {idx}");
+            // fraudulentOrderIDs is an instance of Array
+            // 2 instance methods?
+            int length = fraudulentOrderIDs2.GetLength(0);
+            Console.WriteLine($"fraudulentOrderIDs2 has {length} elements");
+            //int[,] matrix = new int[5, 3]; //multi dimension array
+            //int[][] jaggedArray = new int[5][];//array of arrays
+            //
+            //Console.WriteLine(fraudulentOrderIDs2[0].ToString());
+            //Console.WriteLine(new Object().ToString());
+            //Random dice = new Random();
+            //Console.WriteLine(dice.ToString());
+
+            //int[] scores = { 85, 77, 93, 89 };
+
+            //// use following syntax to Initialize AND Assign Value to array
+            //int[] rollA = [dice.Next(1, 7), dice.Next(1, 7), dice.Next(1, 7)]; // collection initializer (newer)
+            //                                                                   // works with Collection AND Arrays
+
+            //int[] rollB = {dice.Next(1, 7), dice.Next(1, 7), dice.Next(1, 7)}; // array initializer, only works with Array
+            //                                                                   //(older syntax)
+            string[] names = { "Rowena", "Robin", "Bao" };
+            int loopCounter = 0;
+
+            foreach (string name in names)
+            {
+                Console.WriteLine($"{++loopCounter} - {name}--");
+            }
+            // working with foreach syntax
+            int[] inventory = { 200, 450, 700, 175, 250 };// declare and initialize int array
+            int sum = 0; // sum is used to add up each element.
+            int bin = 0; // serves as loop counter.
+
+            foreach (int item in inventory)
+            { //iterate over the array
+                sum += item; //add current item to sum
+                Console.WriteLine($"Bin {++bin} = {item} items (Running total: {sum})"); // print a running total
+            }
+            // foreach ends when all elements have been processed
+            Console.WriteLine($"The sum of inventory is {sum}");
+        }
+
+        private static void PrintSubsExpirationDiscount()
+        {
             Random random = new Random();
             int daysUntilExpiration = random.Next(12);
             int discountPercentage = 0;
@@ -27,8 +123,7 @@ namespace Part2
                         discountPercentage = 20;
                         Console.WriteLine($"Your subscription expires within a day!\r\nRenew now and save {discountPercentage}%!");
                     }
-                    else
-                    if (daysUntilExpiration == 0)//Rule 5: If the user's subscription has expired, display the message:
+                    else if (daysUntilExpiration == 0)//Rule 5: If the user's subscription has expired, display the message:
                     {
                         Console.WriteLine("Your subscription has expired.");
                     }
@@ -46,7 +141,6 @@ namespace Part2
             }
             Debug.Print($"{daysUntilExpiration} days to expiration.");
             // Your code goes here
-
         }
 
         private static void DoubleTripleDiceRoll()

@@ -23,25 +23,25 @@ namespace Part2
              * Take a string str, reverse it and output to the console.
              * Also, count the number of 'o' that appears in the string str, and output to the console.
              */
-
-            string str = "The quick brown fox jumps over the lazy dog.";
-            char[] charMessage = str.ToCharArray();
-            Array.Reverse(charMessage);
+            string message = "The quick brown fox jumps over the lazy dog.";
+            char[] reversedMessage = message.ToCharArray();
+            Array.Reverse(reversedMessage);
             
-            int x = 0;
-            foreach (char i in charMessage) 
+            int charCounter = 0;
+            char charToFind = 'o';
+
+            foreach (char aChar in reversedMessage) 
             { 
-                if (i == 'o') 
-                { 
-                    x++;
+                if (aChar == charToFind) 
+                {
+                    charCounter++;
                 }
             }
             
-            string new_message = new String(charMessage);
-            
-            Console.WriteLine(new_message);
-            Console.WriteLine($"'o' appears {x} times.");
+            Console.WriteLine(reversedMessage);
+            Console.WriteLine($"'{charToFind}' appears {charCounter} times.");
         }
+
 
         private static void CommentDemo()
         {

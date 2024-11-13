@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections;
+
 using System.Diagnostics;
 
 namespace Part2
@@ -15,22 +15,97 @@ namespace Part2
             //DoubleTripleDiceRoll();
             //PrintSubsExpirationDiscount();
             //ArrayAndForeachLoop();
+            //FraudulentOrdersChallenge();
+            //CommentDemo();
+            //WhiteSpaceDemo();
 
+            /*
+             * Take a string str, reverse it and output to the console.
+             * Also, count the number of 'o' that appears in the string str, and output to the console.
+             */
+
+            string str = "The quick brown fox jumps over the lazy dog.";
+            char[] charMessage = str.ToCharArray();
+            Array.Reverse(charMessage);
+            
+            int x = 0;
+            foreach (char i in charMessage) 
+            { 
+                if (i == 'o') 
+                { 
+                    x++;
+                }
+            }
+            
+            string new_message = new String(charMessage);
+            
+            Console.WriteLine(new_message);
+            Console.WriteLine($"'o' appears {x} times.");
+        }
+
+        private static void CommentDemo()
+        {
+            //Generate 5 Random Orders using [A-E][000~999] convention.
+            Random random = new Random();
+            string[] orderIDs = new string[5];
+
+            for (int i = 0; i < orderIDs.Length; i++)
+            {
+                int prefixValue = random.Next(65, 70); // ascii 65 is A and 70 is F
+                string prefix = Convert.ToChar(prefixValue).ToString();
+                string suffix = random.Next(1, 1000).ToString("000");
+                orderIDs[i] = prefix + suffix;
+            }
+            foreach (var orderID in orderIDs)
+            {
+                Console.WriteLine(orderID);
+            }
+        }
+
+        private static void WhiteSpaceDemo()
+        {
+            Random dice = new Random();
+
+            int roll1 = dice.Next(1, 7);
+            int roll2 = dice.Next(1, 7);
+            int roll3 = dice.Next(1, 7);
+
+            int total = roll1 + roll2 + roll3;
+            Console.WriteLine($"Dice roll: {roll1} + {roll2} + {roll3} = {total}");
+
+            if ((roll1 == roll2) || (roll2 == roll3) || (roll1 == roll3))
+            {
+                if ((roll1 == roll2) && (roll2 == roll3))
+                {
+                    Console.WriteLine("You rolled triples!  +6 bonus to total!");
+                    total += 6;
+                }
+                else
+                {
+                    Console.WriteLine("You rolled doubles!  +2 bonus to total!");
+                    total += 2;
+                }
+            }
+        }
+
+        private static void FraudulentOrdersChallenge()
+        {
             string[] orders = ["B123",
                                 "C234",
-                                "A345",
+        "A345",
                                 "C15",
                                 "B177",
                                 "G3003",
                                 "C235",
                                 "B179"];
 
-            foreach (string order in orders) {
-                if (order.StartsWith("B")) {
+            foreach (string order in orders)
+            {
+                if (order.StartsWith("B"))
+                {
                     Console.WriteLine(order);
                 }
             }
-
         }
 
         private static void ArrayAndForeachLoop()
@@ -180,7 +255,6 @@ namespace Part2
                         total += 2;
                     }
                 }
-
                 if (total >= 16)
                 {
                     Console.WriteLine("You win a new car!");

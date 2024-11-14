@@ -11,7 +11,12 @@
             //How do I access static variable?
             //StaticInstanceDemo();
             //Mod2.VariableScope();
-            Mod2.Challenge();
+            //Mod2.Challenge();
+            //Mod3.SwitchCase();
+            //Mod3.Challenge();
+            //Mod4.ForLoop();
+            Mod4.Challenge();
+          
         }
 
         private static void StaticInstanceDemo()

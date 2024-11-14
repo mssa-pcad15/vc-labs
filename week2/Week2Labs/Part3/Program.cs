@@ -17,7 +17,10 @@
             //Mod4.ForLoop();
             //Mod4.Challenge();
             //Mod5.DoWhile();
-            Mod5.Challenge();
+            //Mod5.Challenge();//monster and hero
+            //Mod5.Challenge2();
+
+            Mod5.Challenge3();
           
         }
 

@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FtoC", "FtoC\FtoC.csproj", "{939D4CA3-D772-46F3-9149-311D2C0270F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FtoC", "FtoC\FtoC.csproj", "{939D4CA3-D772-46F3-9149-311D2C0270F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentGrading", "StudentGrading\StudentGrading.csproj", "{2898821C-EF7C-4DD1-ACE5-D8C5871B103E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentGrading", "StudentGrading\StudentGrading.csproj", "{2898821C-EF7C-4DD1-ACE5-D8C5871B103E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalGPA", "FinalGPA\FinalGPA.csproj", "{1065A4B3-FAC6-4120-8C18-D07C74AE77B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinalGPA", "FinalGPA\FinalGPA.csproj", "{1065A4B3-FAC6-4120-8C18-D07C74AE77B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScratchPad", "ScratchPad\ScratchPad.csproj", "{ECEE39BE-FD33-46F2-8761-BA892716DE08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScratchPad", "ScratchPad\ScratchPad.csproj", "{ECEE39BE-FD33-46F2-8761-BA892716DE08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Part2", "Part2\Part2.csproj", "{AF6E59D9-1018-4E6B-BC1C-6447B824E8DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Part2", "Part2\Part2.csproj", "{AF6E59D9-1018-4E6B-BC1C-6447B824E8DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoBlazor", "DemoBlazor\DemoBlazor.csproj", "{C4B87F41-7CCC-4236-96F6-5E0EE6077E01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoBlazor", "DemoBlazor\DemoBlazor.csproj", "{C4B87F41-7CCC-4236-96F6-5E0EE6077E01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentGradePart2", "StudentGradePart2\StudentGradePart2.csproj", "{32AA4189-34FC-4D98-B0DB-B782BFF40C7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentGradePart2", "StudentGradePart2\StudentGradePart2.csproj", "{32AA4189-34FC-4D98-B0DB-B782BFF40C7E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starter", "ChallengeProject\Starter\Starter.csproj", "{58944512-AE02-4333-9830-8F5A5C740E16}"
 EndProject
@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starter", "GuidedProjectPar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Final", "GuidedProjectPart2\Final\Final.csproj", "{A95ABC09-306B-4BDB-BC1E-12B1775B8B1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Part3", "Part3\Part3.csproj", "{D7225B0F-59C6-4472-B6FC-43E29748D765}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Part3", "Part3\Part3.csproj", "{D7225B0F-59C6-4472-B6FC-43E29748D765}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Part4", "Part4\Part4.csproj", "{C71D2A9E-1F80-47CA-95AE-03976D6AC6E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +87,10 @@ Global
 		{D7225B0F-59C6-4472-B6FC-43E29748D765}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7225B0F-59C6-4472-B6FC-43E29748D765}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7225B0F-59C6-4472-B6FC-43E29748D765}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C71D2A9E-1F80-47CA-95AE-03976D6AC6E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C71D2A9E-1F80-47CA-95AE-03976D6AC6E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C71D2A9E-1F80-47CA-95AE-03976D6AC6E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C71D2A9E-1F80-47CA-95AE-03976D6AC6E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

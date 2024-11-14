@@ -1,4 +1,6 @@
 ﻿
+using System.Windows.Markup;
+
 namespace Part3
 {
     internal class Mod5
@@ -62,6 +64,47 @@ namespace Part3
                 else winStat[1]++;
             }
             Console.WriteLine($"After 100 battles, hero {winStat[0]} vs monster {winStat[1]}");
+        }
+
+        internal static void Challenge2()
+        {
+            string? readResult;
+            
+            bool validEntry = false;
+            int numericValue = 0;
+
+
+            Console.WriteLine("Enter a string containing at least three characters:");
+            do
+            {
+                readResult = Console.ReadLine();
+                if (readResult != null)
+                {
+                    if (readResult.Length >= 3 && int.TryParse(readResult, out numericValue))
+                    {
+                        validEntry = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Your input is invalid, please try again.");
+                    }
+                }
+            } while (validEntry == false);
+
+
+            Console.WriteLine($"your number times 2 is {numericValue*2}");
+
+
+        }
+
+        internal static void Challenge3()
+        {
+            string[] myStrings = new string[2] { "I like pizza. I like roast chicken. I like salad", "I like all three of the menu choices" };
+            foreach (string str in myStrings)
+            {
+                foreach (string str2 in str.Split('.'))
+                { Console.WriteLine(str2.Trim()); }
+            }
         }
 
         internal static void DoWhile()

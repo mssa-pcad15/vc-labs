@@ -10,7 +10,8 @@
             //Mod1.Challenge2();
             //How do I access static variable?
             //StaticInstanceDemo();
-            Mod2.VariableScope();
+            //Mod2.VariableScope();
+            Mod2.Challenge();
         }
 
         private static void StaticInstanceDemo()

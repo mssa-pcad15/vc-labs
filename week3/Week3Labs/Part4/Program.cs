@@ -2,6 +2,7 @@
 {
     internal class Program
     {
+
         static void Main(string[] args)
         {
 
@@ -15,7 +16,9 @@
             //Mod2.ExerciseDataConversion();
             //Mod2.TryParseSample();
             //Mod2.Challenge1();
-            Mod2.Challenge2();
+            //Mod2.Challenge2();
+            Mod3.ArrayMethods();
+            Mod3.ClearAndResize();
 
         }
 

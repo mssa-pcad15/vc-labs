@@ -9,8 +9,14 @@
             //Mod1.IntegralTypes();//use intellisense Ctrl+. to generate Type and generate Method
             //Mod1.FloatingTypes();
             //Mod1.ValueTypeAndStack();
-            Mod1.ReferenceTypeAndHeap();
+            //Mod1.ReferenceTypeAndHeap();
+            //Mod1.Exercise();
             //SampleValueVsReference();
+            //Mod2.ExerciseDataConversion();
+            //Mod2.TryParseSample();
+            //Mod2.Challenge1();
+            Mod2.Challenge2();
+
         }
 
         private static void SampleValueVsReference()

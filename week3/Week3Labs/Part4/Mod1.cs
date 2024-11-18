@@ -2,6 +2,7 @@
 
 
 
+
 namespace Part4
 {
     internal class Mod1
@@ -99,7 +100,42 @@ namespace Part4
             holder[2] = a;
             foreach (int i in a) Console.Write(i);
             Console.WriteLine();
-        } 
+        }
+
+        internal static void Exercise()
+        {
+            //int[] data; // it is null
+            //data = new int[3]; // instantial 3 int array and assign the address to data
+            int[] data = new int[3]; // declare and instantiate in 1 line.
+            foreach (int i in data) { Console.WriteLine(i); } // default value of int is 0
+
+            string shortenedString = "Hello World!";
+            string shortenedString2 = new String("Hello World!");
+            Console.WriteLine(shortenedString);
+
+            Console.WriteLine(shortenedString == shortenedString2);
+            shortenedString = "123";
+            Console.WriteLine(shortenedString == shortenedString2);
+
+            int val_A = 2;
+            int val_B = val_A;
+            val_B = 5;
+
+            Console.WriteLine("--Value Types--");
+            Console.WriteLine($"val_A: {val_A}");//2
+            Console.WriteLine($"val_B: {val_B}");//5
+
+
+            int[] ref_A = new int[1];
+            ref_A[0] = 2;
+            int[] ref_B = ref_A;
+            ref_B[0] = 5;
+
+            Console.WriteLine("--Reference Types--");
+            Console.WriteLine($"ref_A[0]: {ref_A[0]}");
+            Console.WriteLine($"ref_B[0]: {ref_B[0]}");
+            
+        }
         #endregion
     }
 }

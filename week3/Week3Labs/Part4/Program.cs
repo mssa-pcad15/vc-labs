@@ -21,7 +21,9 @@
             //Mod3.ClearAndResize();
             //Mod3.SplitAndJoin();
             //Mod3.SpinWord();
-            Mod3.Challenge2();
+            //Mod3.Challenge2();
+            //Mod4.Formating();
+            Mod4.LetterChallenge();
 
         }
 

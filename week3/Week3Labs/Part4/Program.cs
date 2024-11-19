@@ -23,7 +23,9 @@
             //Mod3.SpinWord();
             //Mod3.Challenge2();
             //Mod4.Formating();
-            Mod4.LetterChallenge();
+            //Mod4.LetterChallenge();
+            //Mod5.StringMethods1();
+            Mod5.Challenge();
 
         }
 

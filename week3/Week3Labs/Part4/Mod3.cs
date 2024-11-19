@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Part4
 {
@@ -188,17 +189,39 @@ namespace Part4
             //next go through each element in array and reverse the content
             // for (int i =0; i<words.Length; i++)
             //{
-            //  Array.Reverse(words[i])
+            //  
             //}
-            for (int i = 0; i < words.Length; i++) {
-                char[] aWord = words[i].ToArray();
-                Array.Reverse(aWord);
-                words[i]=new string(aWord);
+
+            int counter = 0;
+    
+            foreach (var word in words) {
+                words[counter]  = new(word.Reverse().ToArray());
+                counter++;
             }
-            //lastly join all element in the array with space char to produce the result
+            //for (int i = 0; i < words.Length; i++) {
+            //    //Array.Reverse(words[i].ToArray());
+            //    char[] aWord = words[i].ToCharArray();
+            //    Array.Reverse(aWord);
+            //    words[i]=new string(aWord);
+            //}
+            ////lastly join all element in the array with space char to produce the result
 
             string result = String.Join(' ',words);
             Console.WriteLine(result);
+        }
+
+        internal static void Challenge2()
+        {
+            string orderStream = "B123,C234,A345,C15,B177,G3003,C235,B179";
+            string[] orderStreamArray =orderStream.Split(",");
+            Array.Sort(orderStreamArray);
+
+            foreach (string order in orderStreamArray)
+            {
+                if (order.Length == 4) Console.WriteLine(order);
+                else Console.WriteLine(order + "\t - Error");
+            }
+
         }
     }
 } 

@@ -20,7 +20,8 @@
             //Mod3.ArrayMethods();
             //Mod3.ClearAndResize();
             //Mod3.SplitAndJoin();
-            Mod3.SpinWord();
+            //Mod3.SpinWord();
+            Mod3.Challenge2();
 
         }
 

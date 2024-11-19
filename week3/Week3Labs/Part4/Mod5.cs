@@ -9,6 +9,7 @@ namespace Part4
     {
         internal static void Challenge()
         {
+            
             //minimally viable product
             const string input = "<div><h2>Widgets &trade;</h2><span>5000</span></div>";
 
@@ -28,14 +29,12 @@ namespace Part4
             
             string output = input.Replace(tradeMark,registered);
 
+            output = output.Replace("<div>", "");
+            output = output.Replace("</div>", "");
             // Your work here
 
             Console.WriteLine(output);
-
-            var element = XElement.Parse(input.Replace(tradeMark, ""));
-            foreach (XNode node in element.Nodes()) {
-                Console.WriteLine($"Node Type:{node.NodeType}, Node Value{node.ToString()}");
-            }
+          
         }
 
         internal static void StringMethods1()

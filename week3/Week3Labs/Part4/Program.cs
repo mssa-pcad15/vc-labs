@@ -17,8 +17,10 @@
             //Mod2.TryParseSample();
             //Mod2.Challenge1();
             //Mod2.Challenge2();
-            Mod3.ArrayMethods();
-            Mod3.ClearAndResize();
+            //Mod3.ArrayMethods();
+            //Mod3.ClearAndResize();
+            //Mod3.SplitAndJoin();
+            Mod3.SpinWord();
 
         }
 

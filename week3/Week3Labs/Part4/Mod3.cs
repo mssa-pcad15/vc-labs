@@ -1,9 +1,12 @@
 ﻿
 using System.ComponentModel;
+using System.Diagnostics.Tracing;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Part4
 {
-    internal class Mod3
+    internal static class Mod3
     {
         internal static void ArrayMethods()
         {
@@ -138,10 +141,64 @@ namespace Part4
             Console.WriteLine($"in Main x={x}");
         }
 
+        internal static void SplitAndJoin()
+        {
+            string value = "abc123";
+            char[] valueArray = value.ToCharArray();
+            Array.Reverse(valueArray);
+            string result = new String(valueArray); //Constructor
+            Console.WriteLine(result);
+
+
+            //string result2 = String.Join(",", valueArray);
+            
+            string result2 = new(valueArray.VictorJoin(',').ToArray());
+            Console.WriteLine(result2);
+
+
+            string[] items = result2.Split('\t');
+            foreach (string item in items)
+            {
+                Console.WriteLine(item);
+            }
+        }
+
         private static void Add(ref int x)
         {
             x = x + 10;
             Console.WriteLine($"in Add x={x}" );
+        }
+        public static IEnumerable<char> VictorJoin(this char[] chars, char joinBy) {
+
+            foreach (var item in chars)
+            {
+                yield return item;
+                yield return joinBy;
+            }
+        }
+
+        internal static void SpinWord()
+        {
+            string pangram = "The quick brown fox jumps over the lazy dog";
+
+            //first, try to turn this string into array of strings.
+            // string[] words =  pangram.ToArray()
+            string[] words = pangram.Split(' ');
+
+            //next go through each element in array and reverse the content
+            // for (int i =0; i<words.Length; i++)
+            //{
+            //  Array.Reverse(words[i])
+            //}
+            for (int i = 0; i < words.Length; i++) {
+                char[] aWord = words[i].ToArray();
+                Array.Reverse(aWord);
+                words[i]=new string(aWord);
+            }
+            //lastly join all element in the array with space char to produce the result
+
+            string result = String.Join(' ',words);
+            Console.WriteLine(result);
         }
     }
 } 

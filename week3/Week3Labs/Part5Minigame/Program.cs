@@ -23,17 +23,50 @@ string player = states[0];
 
 // Index of the current food
 int food = 0;
-
+bool isTerminalResized=false;
 InitializeGame();
-while (!shouldExit) 
+while (!shouldExit && !TerminalResized())
 {
-    Move();
+    if (IsPlayerSick())
+    {
+        FreezePlayer();
+    }
+    if (IsPlayerFast()) { //player is fast when player  is (^-^)
+        Move(endIfNonDirectionalKey: false, step: 3); 
+    }
+    else
+    {
+        Move(endIfNonDirectionalKey: false);
+    }
+
+
 }
+
+bool IsPlayerFast()
+{
+    return player == states[1];
+}
+
+bool IsPlayerSick()
+{
+    return player == states[2];
+}
+
+Console.Clear();
+
+if (isTerminalResized)
+{ Console.WriteLine("Console was resized. Program exiting."); }
+else
+{ Console.WriteLine("Thank you for playing!"); }
+
+
+
 
 // Returns true if the Terminal was resized 
 bool TerminalResized() 
 {
-    return height != Console.WindowHeight - 1 || width != Console.WindowWidth - 5;
+    isTerminalResized = (height != Console.WindowHeight - 1 || width != Console.WindowWidth - 5);
+    return isTerminalResized;
 }
 
 // Displays random food at a random location
@@ -67,8 +100,14 @@ void FreezePlayer()
 }
 
 // Reads directional input from the Console and moves the player
-void Move() 
+void Move(bool endIfNonDirectionalKey=false,int step=1) 
 {
+    //if (TerminalResized()) {
+    //    Console.WriteLine("Console was resized. Program exiting.");
+    //    System.Environment.Exit(0);
+    //}
+    
+
     int lastX = playerX;
     int lastY = playerY;
     
@@ -81,13 +120,16 @@ void Move()
             playerY++; 
             break;
 		case ConsoleKey.LeftArrow:  
-            playerX--; 
+            playerX-= step; 
             break;
 		case ConsoleKey.RightArrow: 
-            playerX++; 
+            playerX+= step; 
             break;
 		case ConsoleKey.Escape:     
             shouldExit = true; 
+            break;
+        default:
+            shouldExit = endIfNonDirectionalKey;
             break;
     }
 
@@ -102,9 +144,30 @@ void Move()
     playerX = (playerX < 0) ? 0 : (playerX >= width ? width : playerX);
     playerY = (playerY < 0) ? 0 : (playerY >= height ? height : playerY);
 
+    //Does player overlap with food?
+    if (PlayerOverlapsFood(playerX, playerY, foodX, foodY)) {
+        ShowFood();
+    }
+
     // Draw the player at the new location
     Console.SetCursorPosition(playerX, playerY);
     Console.Write(player);
+
+}
+
+bool PlayerOverlapsFood(int playerX, int playerY, int foodX, int foodY)
+{
+    if (playerX+player.Length > foodX && playerX < foodX + foods[food].Length && playerY == foodY)
+    {
+        //erase food
+        Console.SetCursorPosition(foodX, foodY);
+        Console.Write(new string(' ', foods[food].Length));
+
+        //change player appearance
+        player = states[food];
+        return true;
+    }
+    return false;
 }
 
 // Clears the console, displays the food and player

@@ -36,7 +36,28 @@ namespace Project5
             string WinOrLose(int roll, int target) => roll > target? "You win!": "You lose!";
         }
 
-     
+        internal static void Parameters()
+        {
+            bool flag = false;
+            PrintCount(flag, 500,13);
+        }
+
+        internal static void PrintCount(bool onlyEven,int upto,int badNumber) {
+           
+            for (int i = 0; i < upto; i++)
+            {
+                if (onlyEven)
+                { if (int.IsEvenInteger(i) && !IsBadNumber(badNumber,i)) { Console.WriteLine(i); } }
+                else
+                { Console.WriteLine(i); }
+            }
+
+        }
+
+        private static bool IsBadNumber(int badNumber, int i)
+        {
+            return (i % badNumber == 0);
+        }
 
         internal static void Return()
         {

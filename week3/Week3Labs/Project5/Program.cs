@@ -17,7 +17,8 @@
             //Mod2.CubeWithArrayParam();
             //Mod2.ChallengeEmail();
             //Mod3.Return();
-            Mod3.ChallengeDiceGame();
+            //Mod3.ChallengeDiceGame();
+            Mod3.Parameters();
         }
     }
 }

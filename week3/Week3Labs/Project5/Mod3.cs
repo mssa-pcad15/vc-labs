@@ -8,7 +8,7 @@ namespace Project5
         {
             Random random = new Random();
             Console.WriteLine("Would you like to play? (Y/N)");
-            while (ShouldPlay())
+            if (ShouldPlay())
             {
                 PlayGame();
             }
@@ -28,17 +28,12 @@ namespace Project5
                     Console.WriteLine("\nPlay again? (Y/N)");
 
                     play = ShouldPlay();
+                   
                 }
             }
-            bool ShouldPlay()
-            {
+            bool ShouldPlay() => Console.ReadLine()?.ToLower() == "y";
             
-                return Console.ReadLine()?.ToLower() == "y";
-            }
-            string WinOrLose(int roll, int target)
-            {
-                return roll > target? "You win!": "You lose!";
-            }
+            string WinOrLose(int roll, int target) => roll > target? "You win!": "You lose!";
         }
 
      

@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetSearchPart4", "PetSearch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Part5", "Project5\Part5.csproj", "{C573439D-AA0F-4306-99EF-BC025DE3EF43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CallAPI", "CallAPI\CallAPI.csproj", "{10297E9E-A7F0-4A4F-83FE-E18DB21E6B31}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starter", "Part5Minigame\Starter.csproj", "{013AFACE-77B3-4976-A4E4-DF37EF6BDF58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{C573439D-AA0F-4306-99EF-BC025DE3EF43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C573439D-AA0F-4306-99EF-BC025DE3EF43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C573439D-AA0F-4306-99EF-BC025DE3EF43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10297E9E-A7F0-4A4F-83FE-E18DB21E6B31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10297E9E-A7F0-4A4F-83FE-E18DB21E6B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10297E9E-A7F0-4A4F-83FE-E18DB21E6B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10297E9E-A7F0-4A4F-83FE-E18DB21E6B31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{013AFACE-77B3-4976-A4E4-DF37EF6BDF58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{013AFACE-77B3-4976-A4E4-DF37EF6BDF58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{013AFACE-77B3-4976-A4E4-DF37EF6BDF58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{013AFACE-77B3-4976-A4E4-DF37EF6BDF58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

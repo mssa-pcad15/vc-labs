@@ -9,7 +9,7 @@ namespace Fundamentals
     public class Calculator
     {
         public static int Add(int op1, int op2) {
-            return 1;
+            return op1+op2;
         }
     }
 }

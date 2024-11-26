@@ -101,10 +101,14 @@ namespace FundamentalsTest
             for (int i = 0; i < 53; i++) { _ = deckA.Deal(); }
         }
 
-            [TestMethod] //4
+        [TestMethod] //4
         public void PrintsCardsInDeck() //this is not hard work but busy work.
         {
+            var deckA = new Deck();
+            string actual = deckA.ToString();
+            string expected = "♠1,♠2,♠3,♠4,♠5,♠6,♠7,♠8,♠9,♠10,♠11,♠12,♠13,♥1,♥2,♥3,♥4,♥5,♥6,♥7,♥8,♥9,♥10,♥11,♥12,♥13,♣1,♣2,♣3,♣4,♣5,♣6,♣7,♣8,♣9,♣10,♣11,♣12,♣13,♦1,♦2,♦3,♦4,♦5,♦6,♦7,♦8,♦9,♦10,♦11,♦12,♦13";
             //Arrange
+            Assert.AreEqual(expected, actual);
         }
     }
 }

@@ -63,15 +63,18 @@ namespace FundamentalsTest
             //Arrange
             Deck deckA = new Deck();
             Deck deckB = new Deck();
+            //create 2 new deck
             Deck deckC = new Deck();
             Deck deckD = new Deck();
 
             deckA.Shuffle();
 
-            Assert.AreNotEqual(deckA, deckB);// this is ???
+            Assert.AreNotEqual(deckA, deckB);// this is deckA is shuffled, so it should be different, card by card with new deckB
             Assert.AreEqual(deckC, deckD);
+            //Assert.IsTrue(deckC.Equals(deckD));
+            //Assert.IsTrue(deckD.Equals(deckC));
+
             Assert.IsFalse(deckA.IsInNewDeckOrder);
-            
         }
 
         [TestMethod] //3
@@ -110,5 +113,51 @@ namespace FundamentalsTest
             //Arrange
             Assert.AreEqual(expected, actual);
         }
+
+
+        [TestMethod]
+        public void SortCards()
+        {
+            //arrange
+            Card[] fiveCards = new Card[]
+            {
+                new Card { Rank = CardRank.Five,Suit = CardSuit.Spade },
+                new Card { Rank = CardRank.Nine,Suit = CardSuit.Spade },
+                new Card { Rank = CardRank.Two,Suit = CardSuit.Spade },
+                new Card { Rank = CardRank.Jack,Suit = CardSuit.Spade },
+                new Card { Rank = CardRank.Ace,Suit = CardSuit.Spade }
+            };
+            //act
+            Array.Sort(fiveCards);
+            //assert
+            Assert.AreEqual(fiveCards[0], new Card { Rank = CardRank.Ace, Suit = CardSuit.Spade });
+            Assert.AreEqual(fiveCards[1], new Card { Rank = CardRank.Two, Suit = CardSuit.Spade });
+            Assert.AreEqual(fiveCards[2], new Card { Rank = CardRank.Five, Suit = CardSuit.Spade });
+        }
+
+        [TestMethod]
+        public void SortCardsWithSuitAndRankOrder()
+        {
+            //arrange
+            Card[] fiveCards = new Card[]
+            {
+                new Card { Rank = CardRank.Ace,Suit = CardSuit.Spade },
+                new Card { Rank = CardRank.Ace,Suit = CardSuit.Heart },
+                new Card { Rank = CardRank.Ace,Suit = CardSuit.Diamond },
+                new Card { Rank = CardRank.Five,Suit = CardSuit.Club },
+                new Card { Rank = CardRank.Seven,Suit = CardSuit.Club }
+            };
+            //act
+            Array.Sort(fiveCards,new SuitRankComparer());
+            //assert
+            Assert.AreEqual(fiveCards[0], new Card { Rank = CardRank.Ace, Suit = CardSuit.Spade });
+            Assert.AreEqual(fiveCards[1], new Card { Rank = CardRank.Ace, Suit = CardSuit.Heart });
+            Assert.AreEqual(fiveCards[2], new Card { Rank = CardRank.Five, Suit = CardSuit.Club});
+            Assert.AreEqual(fiveCards[3], new Card { Rank = CardRank.Seven, Suit = CardSuit.Club });
+            Assert.AreEqual(fiveCards[4], new Card { Rank = CardRank.Ace, Suit = CardSuit.Diamond });
+        }
+
+
+
     }
 }

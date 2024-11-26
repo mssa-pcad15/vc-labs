@@ -4,10 +4,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+//how do we compare 2 Array, you mean like Deck which is an array Card.
 namespace Fundamentals.LearnTypes
 {
-    public class Deck:IEquatable<Deck>
+    public class Deck : IEquatable<Deck>  // : means implment or inherit, in case of interface, we call it implement. 
     {
         //public static int NumberOfCards = 52;
         public const int NumberOfCards = 52; //either one works, what is the difference?
@@ -52,26 +52,36 @@ namespace Fundamentals.LearnTypes
             {
                 int from = random.Next(52);
                 int to = random.Next(52);
-                (_cards[from], _cards[to]) = (_cards[to], _cards[from]); //tuple
+
+                //swap without tuple
+                //Card temp = _cards[to];
+                //_cards[to] = _cards[from];
+                //_cards[from] = temp;
+
+                (_cards[from], _cards[to]) = (_cards[to], _cards[from]); //tuple swap
             }
             IsInNewDeckOrder = false;
         }
 
-        public bool Equals(Deck? other)
+
+
+        public override string ToString()
         {
-            if (other == null) return false;
+            return string.Join(',', _cards);
+        }
+
+        public bool Equals(Deck? otherDeck) // beware this method has side effect, save the side effect for later.
+        {
+            if (otherDeck == null) return false;
             for (int i = 0; i < NumberOfCards; i++)
             {
-                Card a = this.Deal();
-                Card b = other.Deal();
-                if (a != b) return false;
+                Card a = this.Deal(); // this mean
+                Card b = otherDeck.Deal();
+                if (a!=b) return false;
             }
             return true;
         }
 
-        public override string ToString()
-        {
-            return string.Join(',',_cards);
-        }
+     
     }
 }

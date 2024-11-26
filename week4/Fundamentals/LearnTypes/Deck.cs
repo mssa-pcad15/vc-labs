@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Fundamentals.LearnTypes
 {
-    public class Deck
+    public class Deck:IEquatable<Deck>
     {
         //public static int NumberOfCards = 52;
         public const int NumberOfCards = 52; //either one works, what is the difference?
-        public bool IsInNewDeckOrder { get; } //flag indicates whether the deck had been shuffled
-        public int RemainingCards => NumberOfCards - currentCard; //RemainingCards is simply NumberOfCards-currentCards
+        public bool IsInNewDeckOrder { get; private set; } //flag indicates whether the deck had been shuffled
+        public int RemainingCards => NumberOfCards - currentCard; //RemainingCards is calculated from NumberOfCards-currentCards
 
         private Card[] _cards = new Card[NumberOfCards]; // private array of Card
-        private int currentCard = 0;
+        private int currentCard = 0; //this is the pointer to the current card in the deck
         
         
 
@@ -33,10 +33,40 @@ namespace Fundamentals.LearnTypes
             }
             IsInNewDeckOrder = true;
         }
-        public Card GetCardByIndex(int index) => _cards[index]; //use a fatarrow to retunr card by index
+        public Card GetCardByIndex(int index) => _cards[index]; //use a fat arrow to return card by index
 
         public Card Deal() => GetCardByIndex(currentCard++); //we already have a GetCardByIndex, let's reuse it.
 
+        public Card[] Deal(int howManyCard) //can you write a test for this?
+        {
+            Card[] cards = new Card[howManyCard]; //ready a new array of card based on how many cards we want
+            for (int i = 0; i < howManyCard; i++) {
+                cards[i] = this.Deal();
+            }
+            return cards;
+        }
 
+        public void Shuffle() {
+            Random random = new Random();
+            for (int i = 0; i < 1000; i++)
+            {
+                int from = random.Next(52);
+                int to = random.Next(52);
+                (_cards[from], _cards[to]) = (_cards[to], _cards[from]); //tuple
+            }
+            IsInNewDeckOrder = false;
+        }
+
+        public bool Equals(Deck? other)
+        {
+            if (other == null) return false;
+            for (int i = 0; i < NumberOfCards; i++)
+            {
+                Card a = this.Deal();
+                Card b = other.Deal();
+                if (a != b) return false;
+            }
+            return true;
+        }
     }
 }

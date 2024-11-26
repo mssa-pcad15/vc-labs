@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Fundamentals.LearnTypes
 {
 
-    public struct Card
+    public record struct Card
     {
        public CardSuit Suit { get; set; }
        public CardRank Rank { get; set; }

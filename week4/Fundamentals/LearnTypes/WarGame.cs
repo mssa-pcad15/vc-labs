@@ -59,14 +59,14 @@ namespace Fundamentals.LearnTypes
 
         public string GameResult { get; private set; }
 
-        public event EventHandler<EventArgs> GameInitialized;
-        public event EventHandler<EventArgs> DealerReady;
-        public event EventHandler<EventArgs> PlayerReady;
-        public event EventHandler<EventArgs> PlacedWager;
-        public event EventHandler<EventArgs> HandDealt;
-        public event EventHandler<Person> HasWinner;
-        public event EventHandler<EventArgs> GotoWar;
-        public event EventHandler<EventArgs> GameOver;
+        public event EventHandler<EventArgs>? GameInitialized;
+        public event EventHandler<EventArgs>? DealerReady;
+        public event EventHandler<EventArgs>? PlayerReady;
+        public event EventHandler<EventArgs>? PlacedWager;
+        public event EventHandler<EventArgs>? HandDealt;
+        public event EventHandler<Person>? HasWinner;
+        public event EventHandler<EventArgs>? GotoWar;
+        public event EventHandler<EventArgs>? GameOver;
 
         public WarGame(Dealer dealer)
         {
@@ -94,7 +94,17 @@ namespace Fundamentals.LearnTypes
                 this.GameResult = result;
                 GameOver?.Invoke(this, EventArgs.Empty);
             };
-
+            this.GameOver += (o, e) => {
+                GameInitialized = null;
+                DealerReady = null; ;
+                PlayerReady = null; ;
+                PlacedWager = null; ;
+                HandDealt = null; ;
+                HasWinner = null; ;
+                GotoWar = null; ;
+                GameOver = null;
+                
+            };
             GameInitialized?.Invoke(this, EventArgs.Empty);
         }
 
@@ -139,8 +149,8 @@ namespace Fundamentals.LearnTypes
         private WarGame _currentGame;
 
 
-        public event EventHandler<EventArgs> LetsGo;
-        public event EventHandler<EventArgs> WagerProcessed;
+        public event EventHandler<EventArgs>? LetsGo;
+        public event EventHandler<EventArgs>? WagerProcessed;
 
         public void JoinGame(WarGame theGame) {
             theGame.Dealer = this;
@@ -165,7 +175,15 @@ namespace Fundamentals.LearnTypes
 
                 WagerProcessed?.Invoke(this, EventArgs.Empty);
             };
+            this._currentGame.GameOver += _currentGame_GameOver;
         }
+
+        private void _currentGame_GameOver(object? sender, EventArgs e)
+        {
+            LetsGo = null;
+            WagerProcessed = null;
+        }
+
         public override void OnGameOver(object? sender, EventArgs e)
         {
             //should reconcile with the Table Reserve
@@ -180,8 +198,8 @@ namespace Fundamentals.LearnTypes
         private WarGame _currentGame;
         private List<WarGame> _gameHistory= new List<WarGame>();
 
-        public event EventHandler<EventArgs> DoubleDown;
-        public event EventHandler<EventArgs> Surrender;
+        public event EventHandler<EventArgs>? DoubleDown;
+        public event EventHandler<EventArgs>? Surrender;
         
 
 
@@ -202,6 +220,13 @@ namespace Fundamentals.LearnTypes
                     DoubleDown?.Invoke(this, EventArgs.Empty);
                 }
             };
+            this._currentGame.GameOver += _currentGame_GameOver;
+        }
+
+        private void _currentGame_GameOver(object? sender, EventArgs e)
+        {
+            DoubleDown = null;
+            Surrender = null;
         }
 
         public void PlaceBet(int wager)

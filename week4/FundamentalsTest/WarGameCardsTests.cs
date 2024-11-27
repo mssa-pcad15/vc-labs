@@ -28,14 +28,14 @@ namespace Fundamentals.LearnTypes.Tests
         public void AfterDeal90PercentOfInPlayBatchSwapBatches()
         {
             WarGameCards shoe = new WarGameCards();
-            for (int i = 0; i < (0.9 * Deck.NumberOfCards * 6); i++)
+            for (int i = 0; i < (0.90 * Deck.NumberOfCards * 6)+1; i++)
             {
                 _ = shoe.Deal();
             }
             Assert.AreSame(shoe.InPlayBatch, shoe.Batches[1]);
             Assert.AreSame(shoe.StandbyBatch, shoe.Batches[0]);
 
-            for (int i = 0; i < (0.9 * Deck.NumberOfCards * 6); i++)
+            for (int i = 0; i < (0.9 * Deck.NumberOfCards * 6)+1; i++)
             {
                 _ = shoe.Deal();
             }

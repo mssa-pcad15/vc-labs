@@ -8,21 +8,21 @@ namespace Fundamentals.LearnTypes
 {
     public class WarGame
     {
-        private Dealer dealer;
-        private Player player;
-        private int wager;
-        private WarGameCards Shoe;
+        private Dealer _dealer;
+        private Player _player;
+        private int _wager;
+        private WarGameCards _shoe;
 
 
-        public Dealer Dealer { get => dealer; internal set 
+        public Dealer Dealer { get => _dealer; internal set 
             { 
-                dealer = value;
+                _dealer = value;
                 DealerReady?.Invoke(this, EventArgs.Empty);
             } }
 
-        public Player Player { get => player; internal set 
+        public Player Player { get => _player; internal set 
             { 
-                player = value;
+                _player = value;
                 PlayerReady?.Invoke(this, EventArgs.Empty);
             } }
 
@@ -38,10 +38,10 @@ namespace Fundamentals.LearnTypes
 
         public int Wager
         {
-            get { return wager; }
+            get { return _wager; }
             set {
                 if (Player == null || Dealer == null) throw new Exception("Missing participant");
-                wager = value;
+                _wager = value;
                 PlacedWager?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -59,11 +59,11 @@ namespace Fundamentals.LearnTypes
 
         public WarGame()
         {
-            this.Shoe = new WarGameCards();
+            this._shoe = new WarGameCards(); //in future revision, the shoe would be a reference to Table's Property
             Dealer.LetsGo += (o, e) =>
             {
-                Dealer.Hand.Add(this.Shoe.Deal());
-                Player.Hand.Add(this.Shoe.Deal());
+                Dealer.Hand.Add(this._shoe.Deal());
+                Player.Hand.Add(this._shoe.Deal());
                 HandDealt?.Invoke(this, EventArgs.Empty);
             };
             Dealer.WagerProcessed += (o, e) =>
@@ -81,14 +81,15 @@ namespace Fundamentals.LearnTypes
                 GameOver?.Invoke(this, EventArgs.Empty);
             };
 
+            GameInitialized?.Invoke(this, EventArgs.Empty);
         }
 
         internal void War()
         {
             Player.DoubleDown += (o, e) =>
             {
-                Dealer.Hand.Add(Shoe.Deal());
-                Player.Hand.Add(Shoe.Deal());
+                Dealer.Hand.Add(_shoe.Deal());
+                Player.Hand.Add(_shoe.Deal());
                 Wager = Wager * 2;
                 HandDealt?.Invoke(this,EventArgs.Empty);
             };
@@ -137,9 +138,10 @@ namespace Fundamentals.LearnTypes
             };
             this._currentGame.HasWinner += (o, winner) =>
             {
-                if (winner is Dealer d) { this.Balance += _currentGame.Wager; } else { 
+                if (winner is Dealer d) { this.Balance += _currentGame.Wager; } 
+                else { 
                     this.Balance -= _currentGame.Wager;
-                    this._currentGame.Player.ReceiveWinning(_currentGame.Wager);
+                    this._currentGame.Player.ReceiveWinning(_currentGame.Wager*2);
                 };
 
                 WagerProcessed?.Invoke(this, EventArgs.Empty);
@@ -176,8 +178,8 @@ namespace Fundamentals.LearnTypes
 
         public void PlaceBet(int wager)
         {
-           this._currentGame.Wager = wager;
-           this.Balance -= wager;
+            this.Balance -= wager;
+            this._currentGame.Wager = wager;
         }
         public void ReceiveWinning(int winning) {
             this.Balance += winning;

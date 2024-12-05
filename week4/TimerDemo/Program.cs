@@ -27,7 +27,8 @@
             string result = new string("Here is a sentence".Where(
                 (char aChar,int index) => index%2==0).ToArray());
             Console.WriteLine(result);
-            
+
+           
            
         }
 

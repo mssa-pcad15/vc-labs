@@ -1,0 +1,6 @@
+﻿{
+  "FlagA": true,
+  "FlagB": false,
+  "StringC": "Hello",
+  "IntD": 1000
+}

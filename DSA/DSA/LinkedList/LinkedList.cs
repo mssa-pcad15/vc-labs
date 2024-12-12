@@ -2,13 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DSA.DataStructure
 {
-    public class LinkedList 
+    public class LinkedList : IEnumerable,IEnumerator, ICollection
     {
+        public bool IsSynchronized => false;
+        public object SyncRoot => this;
+
         public Node? First { get; private set; }
         public Node? Current { get; private set; }
         public Node? Last { get; private set; }
@@ -25,29 +29,45 @@ namespace DSA.DataStructure
                 return count;
             } 
         }
+
+        object IEnumerator.Current => this.Current!;
+
         public LinkedList()
         {
             
-            First = null;
-            Current = null;
+            this.First = null;
+            this.Current = null;
+       
         }
 
-        public LinkedList(string s):this()
+        public LinkedList(string s):this() //constructor chaining
         {
-            First = new Node(s);
-            Current = First;
-            
+            this.First = new Node(s);
+            this.Last = First;
+          
         }
 
         public bool MoveNext() {
-            if (this.Current is null) return false;
-            if (this.Current.Next is null) return false;
+            if (this.Current is null) {
+                if (First is not null)
+                    { this.Current = First; return true; }
+                return false;
+            }
+            
+            if (this.Current.Next==null) return false;
+
             this.Current = this.Current.Next;
+
             return true;
         }
         public void Add(Node node)
         {
-            if (this.First is null) this.First = node;
+            if (this.First is null)
+            {
+                this.First = node;
+                this.Last = node;
+                return;
+            }
             Node last = First;
             while (last.Next != null) { 
                 last = last.Next;
@@ -55,7 +75,38 @@ namespace DSA.DataStructure
             last.Next = node;
             this.Last = node;
         }
-        
+
+        public void CopyTo(Array array, int index)
+        {
+            if (array == null) throw new ArgumentNullException("array is null");
+            if (array.Length == 0) throw new ArgumentException("Zero length array.");
+            if (array.Rank != 1) throw new ArgumentException("Can't do multi dimensional arrays");
+            if (index < 0 || index > array.Length - 1) throw new ArgumentOutOfRangeException("index is less than zero or out of bound.");
+            if (First == null) throw new ArgumentNullException("This is an empty List.");
+           
+
+
+            if (array.Length - index < this.Count) throw new ArgumentException(
+                $"Array is not big enough to store {this.Count} elements starting at index {index}");
+
+            Node n = First;
+            int dest = index;
+            for (int i = 0; i < this.Count; i++)
+            {
+                array.SetValue(n, dest);
+                if (n.Next != null) {n = n.Next;}
+                dest++;
+            }
+        }
+
+        public void Reset() {
+            this.Current = null;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return this;
+        }
     }
 
     public class Node {
@@ -67,7 +118,11 @@ namespace DSA.DataStructure
         }
 
         public string Value { get; set; }
+
         
 
+      
+
+       
     }
 }

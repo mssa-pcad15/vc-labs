@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSA", "DSA\DSA.csproj", "{BC747F2F-BFB6-47C7-B7A0-E75AE0DE28EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSATest", "DSATest\DSATest.csproj", "{7560842C-3390-4D57-BF28-A7425F523C43}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC747F2F-BFB6-47C7-B7A0-E75AE0DE28EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC747F2F-BFB6-47C7-B7A0-E75AE0DE28EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC747F2F-BFB6-47C7-B7A0-E75AE0DE28EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC747F2F-BFB6-47C7-B7A0-E75AE0DE28EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7560842C-3390-4D57-BF28-A7425F523C43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7560842C-3390-4D57-BF28-A7425F523C43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7560842C-3390-4D57-BF28-A7425F523C43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7560842C-3390-4D57-BF28-A7425F523C43}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0A2D458D-C661-405A-96A2-1263B2FAA494}
+	EndGlobalSection
+EndGlobal

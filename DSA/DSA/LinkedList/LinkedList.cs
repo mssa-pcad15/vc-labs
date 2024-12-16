@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DSA.DataStructure
 {
-    public class LinkedList : IEnumerable,IEnumerator, ICollection
+    public partial class LinkedList : IEnumerable,IEnumerator, ICollection, IList
     {
         public bool IsSynchronized => false;
         public object SyncRoot => this;
@@ -30,8 +30,13 @@ namespace DSA.DataStructure
             } 
         }
 
+        public bool IsFixedSize =>false;
+        public bool IsReadOnly => false;
+
+
         object IEnumerator.Current => this.Current!;
 
+      
         public LinkedList()
         {
             
@@ -107,6 +112,7 @@ namespace DSA.DataStructure
         {
             return this;
         }
+
     }
 
     public class Node {
@@ -118,11 +124,5 @@ namespace DSA.DataStructure
         }
 
         public string Value { get; set; }
-
-        
-
-      
-
-       
     }
 }

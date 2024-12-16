@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -10,8 +11,11 @@ namespace DSATest.LinkedListTest
     [TestClass]
     public class LinkedListTest
     {
+        #region Basic Linked List Test - Constructor and movement.
+
         [TestMethod]
-        public void LinkListConstructionTest() {
+        public void LinkListConstructionTest()
+        {
 
             LinkedList l = new LinkedList();
             Assert.IsNull(l.First);
@@ -43,7 +47,7 @@ namespace DSATest.LinkedListTest
             LinkedList l = new LinkedList("Hello");
             bool hasNext = l.MoveNext();
             Assert.IsTrue(hasNext);
-            Assert.AreSame(l.First,l.Current);
+            Assert.AreSame(l.First, l.Current);
             Assert.AreSame(l.Last, l.Current);
 
             Node n = new Node("World");
@@ -51,7 +55,7 @@ namespace DSATest.LinkedListTest
             l.Add(n);
             hasNext = l.MoveNext();
             Assert.IsTrue(hasNext);
-         
+
             Assert.AreSame(l.Current, n);
             Assert.AreNotSame(l.First, n);
             Assert.AreSame(l.Last, n);
@@ -69,7 +73,8 @@ namespace DSATest.LinkedListTest
             Assert.AreSame(n, l.Last);
         }
 
-       
+        #endregion
+
 
         #region IEnumerable Tests
         [TestMethod]
@@ -260,6 +265,292 @@ namespace DSATest.LinkedListTest
             Assert.ThrowsException<ArgumentNullException>(() => l.CopyTo(input, 1));
         }
         #endregion
+
+        #region IListTests
+        [TestMethod]
+        public void LinkedListIListIsFixedSizeIsFalse() { 
+            var l = new LinkedList();
+            Assert.IsFalse(l.IsFixedSize);
+        }
+        [TestMethod]
+        public void LinkedListIListIsReadOnlyIsFalse()
+        {
+            var l = new LinkedList();
+            Assert.IsFalse(l.IsReadOnly);
+        }
+        [TestMethod]
+        public void LinkedListIListIndexerTest()
+        {
+            LinkedList l = [new Node("Apple"),new Node("Banana"), new Node("Cherry") ];
+            Assert.AreEqual("Apple", ((Node) l[0]).Value);
+            Assert.AreEqual("Banana", ((Node)l[1]).Value);
+            Assert.AreEqual("Cherry", ((Node)l[2]).Value);
+        }
+
+        [TestMethod]
+        public void LinkedListIListIndexerOOB()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+       
+            Assert.ThrowsException<IndexOutOfRangeException>(()=> ((Node)l[3]).Value);
+        }
+
+        [TestMethod]
+        public void LinkedListIListIndexerOOB2()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+
+            Assert.ThrowsException<IndexOutOfRangeException>(() => ((Node)l[-1]).Value);
+        }
+
+        [TestMethod]
+        public void LinkedListIListIndexerSetterFirst()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            l[0]= new Node("Pie");
+            Assert.AreEqual("Pie", l.First.Value);
+            Assert.AreEqual("Cherry", l.Last.Value);
+        }
+
+        [TestMethod]
+        public void LinkedListIListIndexerSetterLast()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            l[2] = new Node("Pie");
+            Assert.AreEqual("Pie", l.Last.Value);
+            Assert.AreEqual("Apple", l.First.Value);
+        }
+        [TestMethod]
+        public void LinkedListIListIndexerSetterAny()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            l[1] = new Node("Pie");
+            Assert.AreEqual("Apple", l.First.Value);
+            Assert.AreEqual("Pie", l.First.Next.Value);
+            Assert.AreEqual("Cherry", l.First.Next.Next.Value);
+        }
+
+        [TestMethod]
+        public void LinkedListIListIndexerSetterAny2()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry"), new Node("Date")];
+            l[2] = new Node("Pie");
+            Assert.AreEqual("Apple", l.First.Value);
+            Assert.AreEqual("Banana", l.First.Next.Value);
+            Assert.AreEqual("Pie", l.First.Next.Next.Value);
+            Assert.AreEqual("Date", l.First.Next.Next.Next.Value);
+        }
+
+        [TestMethod]
+        [DataRow(-1)]
+        [DataRow(3)]
+        [DataRow(4)]
+        public void LinkedListIListIndexerException(int pos)
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+
+            Assert.ThrowsException<IndexOutOfRangeException>(() => l[pos] = new Node("Pie"));
+        }
+        [TestMethod]
+        public void LinkedListIListAddTest()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            object o = new Node("Hello");
+            int index = l.Add(o);
+            Assert.AreEqual(3, index);
+            Assert.AreEqual("Hello", ((Node)l[index]).Value);
+        }
+        [TestMethod]
+        public void LinkedListIListAddNonNodeTest()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            object o = new String("Hello");
+            
+            Assert.ThrowsException<InvalidOperationException>(() => _= l.Add(o));
+           
+        }
+
+        [TestMethod]
+        public void LinkedListIListAddLastTest()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            object o = new Node("Hello");
+            int index = l.Add(o);
+            Assert.AreEqual(3, index);
+            Assert.AreEqual("Hello", ((Node)l[index]).Value);
+            Assert.AreSame(l.Last, l[3]);
+        }
+        [TestMethod]
+        public void LinkedListIListClearTest()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            l.Clear();
+            Assert.IsTrue(l.First == null,"First is not null after clear method.");
+            Assert.IsTrue(l.Last == null, "Last is not null after clear method.");
+            Assert.IsTrue(l.Count == 0, "Count is not 0 after clear method.");
+        }
+
+        [TestMethod]
+        public void LinkedListIListContainsTest()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            var actual = l.Contains(new Node("Apple"));
+            Assert.IsTrue(actual);
+        }
+        [TestMethod]
+        public void LinkedListIListContainsNegativeTest()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            var actual = l.Contains(new Node("Apple2"));
+            Assert.IsFalse(actual);
+        }
+
+        [TestMethod]
+        public void LinkedListIListIndexOfTest()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            var actual = l.IndexOf(new Node("Apple"));
+            var expected = 0;
+            Assert.AreEqual(expected,actual);
+        }
+        [TestMethod]
+        public void LinkedListIListIndexOfTest2()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            var actual = l.IndexOf(new Node("Cherry"));
+            var expected = 2;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void LinkedListIListIndexOfNegativeTest()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            var actual = l.IndexOf(new Node("Pear"));
+            var expected = -1;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void LinkedListIListInsertFirstTest()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            object node =new Node("Pear");
+            l.Insert(0, node);
+            Assert.AreSame(l.First,node);
+            Assert.AreEqual("Apple", ((Node)l[1]!).Value);
+            Assert.AreEqual("Cherry", ((Node)l[3]!).Value);
+            Assert.AreEqual("Cherry", l.Last!.Value);
+            Assert.AreEqual(4, l.Count);
+        }
+
+        [TestMethod]
+        [DataRow(1)]
+        [DataRow(2)]
+        public void LinkedListIListInsertSecondTest(int position)
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            object node = new Node("Pear");
+            l.Insert(position, node);
+            Assert.AreNotSame(l.First, node);
+            Assert.AreEqual("Pear", ((Node)l[position]!).Value);
+            Assert.AreEqual("Apple", ((Node)l[0]!).Value);
+            Assert.AreEqual("Cherry", ((Node)l[3]!).Value);
+            Assert.AreEqual("Cherry", l.Last!.Value);
+            Assert.AreEqual(4, l.Count);
+        }
+        [TestMethod]
+        [DataRow(3)] 
+        [DataRow(4)]
+        [DataRow(5)]
+        [DataRow(6)]
+        public void LinkedListIListInsertLastTest(int pos)
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            object node = new Node("Pear");
+            l.Insert(pos, node);
+            Assert.AreNotSame(l.First, node);
+            Assert.AreEqual("Pear", ((Node)l[3]!).Value);
+            Assert.AreEqual("Pear", l.Last!.Value);
+
+            Assert.AreEqual("Apple", ((Node)l[0]!).Value);
+            Assert.AreEqual("Banana", ((Node)l[1]!).Value);
+            Assert.AreEqual("Cherry", ((Node)l[2]!).Value);
+            Assert.AreEqual(4, l.Count);
+        }
+
+        [TestMethod]
+        public void LinkedListIListRemoveFirstNodeTest()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            object node = new Node("Apple");
+            l.Remove(node);
+            Assert.IsFalse(l.Contains(node));
+            Assert.AreEqual(2, l.Count);
+            Assert.AreEqual("Banana", l.First.Value);
+            Assert.AreEqual("Cherry", l.Last.Value);
+        }
+
+        [TestMethod]
+        public void LinkedListIListRemoveLastNodeTest()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            object node = new Node("Cherry");
+            l.Remove(node);
+            Assert.IsFalse(l.Contains(node));
+            Assert.AreEqual(2, l.Count);
+            Assert.AreEqual("Apple", l.First.Value);
+            Assert.AreEqual("Banana", l.Last.Value);
+        }
+
+        [TestMethod]
+        public void LinkedListIListRemoveSecondNodeTest()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+            object node = new Node("Banana");
+            l.Remove(node);
+            Assert.IsFalse(l.Contains(node));
+            Assert.AreEqual(2, l.Count);
+            Assert.AreEqual("Apple", l.First.Value);
+            Assert.AreEqual("Cherry", l.Last.Value);
+        }
+
+
+        [TestMethod]
+        public void LinkedListIListRemoveAtFirstNodeTest()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+   
+            l.RemoveAt(0);
+            Assert.IsFalse(l.Contains(new Node("Apple")));
+            Assert.AreEqual(2, l.Count);
+            Assert.AreEqual("Banana", l.First.Value);
+            Assert.AreEqual("Cherry", l.Last.Value);
+        }
+        [TestMethod]
+        public void LinkedListIListRemoveAtLastNodeTest()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+
+            l.RemoveAt(2);
+            Assert.IsFalse(l.Contains(new Node("Cherry")));
+            Assert.AreEqual(2, l.Count);
+            Assert.AreEqual("Apple", l.First.Value);
+            Assert.AreEqual("Banana", l.Last.Value);
+        }
+        [TestMethod]
+        public void LinkedListIListRemoveAtMiddleNodeTest()
+        {
+            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
+
+            l.RemoveAt(1);
+            Assert.IsFalse(l.Contains(new Node("Banana")));
+            Assert.AreEqual(2, l.Count);
+            Assert.AreEqual("Apple", l.First.Value);
+            Assert.AreEqual("Cherry", l.Last.Value);
+        }
+        #endregion
+
     }
 }
 

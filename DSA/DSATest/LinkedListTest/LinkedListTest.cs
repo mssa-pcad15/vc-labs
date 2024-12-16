@@ -282,25 +282,20 @@ namespace DSATest.LinkedListTest
         public void LinkedListIListIndexerTest()
         {
             LinkedList l = [new Node("Apple"),new Node("Banana"), new Node("Cherry") ];
-            Assert.AreEqual("Apple", ((Node) l[0]).Value);
-            Assert.AreEqual("Banana", ((Node)l[1]).Value);
-            Assert.AreEqual("Cherry", ((Node)l[2]).Value);
+            
+            Assert.AreEqual("Apple", ((Node) l[0]!).Value);
+            Assert.AreEqual("Banana", ((Node) l[1]!).Value);
+            Assert.AreEqual("Cherry", ((Node) l[2]!).Value);
         }
 
         [TestMethod]
-        public void LinkedListIListIndexerOOB()
+        [DataRow(-1)]
+        [DataRow(3)]
+        public void LinkedListIListIndexerOOB(int position)
         {
             LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
        
-            Assert.ThrowsException<IndexOutOfRangeException>(()=> ((Node)l[3]).Value);
-        }
-
-        [TestMethod]
-        public void LinkedListIListIndexerOOB2()
-        {
-            LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
-
-            Assert.ThrowsException<IndexOutOfRangeException>(() => ((Node)l[-1]).Value);
+            Assert.ThrowsException<IndexOutOfRangeException>(()=> ((Node)l[position]!).Value);
         }
 
         [TestMethod]
@@ -308,8 +303,8 @@ namespace DSATest.LinkedListTest
         {
             LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
             l[0]= new Node("Pie");
-            Assert.AreEqual("Pie", l.First.Value);
-            Assert.AreEqual("Cherry", l.Last.Value);
+            Assert.AreEqual("Pie", l.First!.Value);
+            Assert.AreEqual("Cherry", l.Last!.Value);
         }
 
         [TestMethod]
@@ -345,7 +340,7 @@ namespace DSATest.LinkedListTest
         [DataRow(-1)]
         [DataRow(3)]
         [DataRow(4)]
-        public void LinkedListIListIndexerException(int pos)
+        public void LinkedListIListIndexerSetterException(int pos)
         {
             LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
 
@@ -356,9 +351,11 @@ namespace DSATest.LinkedListTest
         {
             LinkedList l = [new Node("Apple"), new Node("Banana"), new Node("Cherry")];
             object o = new Node("Hello");
+           
             int index = l.Add(o);
+        
             Assert.AreEqual(3, index);
-            Assert.AreEqual("Hello", ((Node)l[index]).Value);
+            Assert.AreEqual("Hello", ((Node) l[index]).Value);
         }
         [TestMethod]
         public void LinkedListIListAddNonNodeTest()

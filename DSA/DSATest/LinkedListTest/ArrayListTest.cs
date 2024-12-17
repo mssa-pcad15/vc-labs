@@ -21,25 +21,7 @@ namespace DSATest.LinkedListTest
             al.Add(new DateTime(2000,10,10));
             Assert.IsInstanceOfType( al[0], typeof(int));
         }
-        [TestMethod]
-        public void Demoist()
-        {
-
-            List<int> intList = new();
-            intList.Add(1);
-            intList.Add(2);
-            intList.Add(3);
-            //intList.Add("Hello");
-            //intList.Add(new DateTime(2000, 10, 10));
-
-            foreach (int i in intList)
-            {
-                Assert.IsInstanceOfType(i, typeof(int));
-            }
-
-            List<Car> garage = new();
-            garage[0]
-        }
+      
     }
 }
 

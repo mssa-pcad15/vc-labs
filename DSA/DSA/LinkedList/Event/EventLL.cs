@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DSA.LinkedList.Event
 {
-    public class EventLL<T>: IEnumerable<T>,IEnumerator<T>
+    public class EventLL<T> : IEnumerable<T>, IEnumerator<T>
     {
         public Node<T>? First = null;
         public Node<T>? Last = null;
@@ -20,6 +20,14 @@ namespace DSA.LinkedList.Event
 
         internal event EventHandler<NodeEventsArgs<T>>? OnCommand;
 
+
+        public int Count {
+            get {
+                var arg = new NodeEventsArgs<T>() { TypeOfCommand = NodeCommandType.GetCount };
+                OnCommand?.Invoke(this,arg);
+                return arg.CountResult+1;
+            } 
+        }
         public void Dispose()
         {
             ;
@@ -62,6 +70,7 @@ namespace DSA.LinkedList.Event
 
     public class Node<T> 
     {
+        static object locker = new object();
         internal int Index = -1;
 
         public T Value;
@@ -81,7 +90,26 @@ namespace DSA.LinkedList.Event
         }
         private void HandleEvent(object sender, NodeEventsArgs<T> arg)
         {
-            throw new NotImplementedException();
+            switch (arg.TypeOfCommand)
+            {
+                case NodeCommandType.NodeAdded:
+                    if (this.Index == (arg.Target.Index - 1)) { arg.Target.Next = this.Next; this.Next = arg.Target; }
+                    if (this.Index >= (arg.Target.Index)) { this.Index++; }
+                    break;
+                case NodeCommandType.GetCount:
+                    lock (locker) {
+                        arg.CountResult = Math.Max(arg.CountResult, this.Index);
+                    }
+                    break;
+                case NodeCommandType.NodeRemoved:
+                    break;
+                case NodeCommandType.NodeSearchByIndex:
+                    break;
+                case NodeCommandType.NodeSearchByValue:
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

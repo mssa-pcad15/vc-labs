@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace DSA.LinkedList.Event
 {
@@ -12,12 +13,15 @@ namespace DSA.LinkedList.Event
 
         internal T SearchByNodeValue;
         internal List<Node<T>>? searchByValueResult;
+
+        internal int CountResult=0;
     }
     internal enum NodeCommandType
     { 
         NodeAdded,
         NodeRemoved,
         NodeSearchByIndex,
-        NodeSearchByValue
+        NodeSearchByValue,
+        GetCount,
     }
 }

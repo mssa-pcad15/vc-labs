@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 
 namespace DSA.DataStructure
 {
-    public partial class LinkedList : IEnumerable,IEnumerator, ICollection, IList
+    public partial class LinkedList<T> : IEnumerable,IEnumerator, ICollection, IList
+        IEnumerable<Node<T>>, IEnumerator<Node<T>>
     {
         public bool IsSynchronized => false;
         public object SyncRoot => this;
 
-        public Node? First { get; private set; }
-        public Node? Current { get; private set; }
-        public Node? Last { get; private set; }
+        public Node<T>? First { get; private set; }
+        public Node<T>? Current { get; private set; }
+        public Node<T>? Last { get; private set; }
         public int Count { 
             get {
                 if (this.First is null) return 0;
@@ -36,7 +37,8 @@ namespace DSA.DataStructure
 
         object IEnumerator.Current => this.Current!;
 
-      
+        Node<T> IEnumerator<Node<T>>.Current => this.Current!;
+
         public LinkedList()
         {
             
@@ -112,7 +114,17 @@ namespace DSA.DataStructure
         {
             return this;
         }
+    
 
+        IEnumerator<DataStructure.Node<T>> IEnumerable<DataStructure.Node<T>>.GetEnumerator()
+        {
+            return this;
+        }
+
+        public void Dispose()
+        {
+            ;
+        }
     }
 
     public class Node {
@@ -124,5 +136,20 @@ namespace DSA.DataStructure
         }
 
         public string Value { get; set; }
+    }
+    public class Node<T>
+    {
+        public Node<T>? Next { get; internal set; }
+        public Node(T s)
+        {
+            this.Value = s;
+            Next = null;
+        }
+
+        public T Value { get; set; }
+    }
+    public class IceCream
+    {
+        public string Flavor { get; set; }
     }
 }

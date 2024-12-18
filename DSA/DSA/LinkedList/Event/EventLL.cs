@@ -1,39 +1,55 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DSA.LinkedList.Event
 {
-    public class EventLL<T> : IEnumerable<T>, IEnumerator<T>
+    public class EventLL<T> : IEnumerable<Node<T>>, IEnumerator<Node<T>?>,ICollection<Node<T>>
     {
+        #region List Properties
         public Node<T>? First = null;
         public Node<T>? Last = null;
         public Node<T>? Current = null;
         private int _currentPointer = -1;
-        object IEnumerator.Current => this.Current;
+        object? IEnumerator.Current => this.Current;
+        Node<T>? IEnumerator<Node<T>?>.Current => this.Current;
 
-        T IEnumerator<T>.Current => this.Current.Value;
+        public int Count
+        {
+            get
+            {
+                var arg = new NodeEventsArgs<T>() { TypeOfCommand = NodeCommandType.GetCount };
+                OnCommand?.Invoke(this, arg);
+                return arg.CountResult;
+            }
+        }
 
+        public bool IsReadOnly => false; 
+        #endregion
+
+        //Event
         internal event EventHandler<NodeEventsArgs<T>>? OnCommand;
 
 
-        public int Count {
-            get {
-                var arg = new NodeEventsArgs<T>() { TypeOfCommand = NodeCommandType.GetCount };
-                OnCommand?.Invoke(this,arg);
-                return arg.CountResult+1;
-            } 
-        }
         public void Dispose()
         {
             ;
         }
 
-        public IEnumerator<T> GetEnumerator()
+        #region IEnumerable Members
+        public IEnumerator<Node<T>> GetEnumerator()
+        {
+            return this;
+        }
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return this;
         }
@@ -41,75 +57,110 @@ namespace DSA.LinkedList.Event
         public bool MoveNext()
         {
             if (First == null || Last == null) return false;
-            if (_currentPointer== -1 )
+            if (_currentPointer == -1)
             {
                 _currentPointer = 0;
+                this.Current = this.First;
                 return true;
             }
             _currentPointer++;
-            return NodeExistsByIndex(_currentPointer);
+            (bool doesExist, Node<T>? foundNode) = nodeExistsByIndex(_currentPointer);
+            this.Current = foundNode;
+
+            return doesExist;
         }
 
-        private bool NodeExistsByIndex(int currentPointer)
+        private (bool, Node<T>?) nodeExistsByIndex(int index)
         {
-           var arg = new NodeEventsArgs<T>() { TypeOfCommand = NodeCommandType.NodeSearchByIndex,
-           new Node<object>(new object()) {  }
-           }
+            var arg = new NodeEventsArgs<T>()
+            {
+                TypeOfCommand = NodeCommandType.NodeSearchByIndex,
+                Target = new Node<T>() { Index = index }
+            };
+            OnCommand?.Invoke(this, arg);
+            return (arg.searchByIndexResult is not null, arg.searchByIndexResult);
         }
 
         public void Reset()
         {
             _currentPointer = -1;
+            this.Current = null;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-    }
 
-    public class Node<T> 
-    {
-        static object locker = new object();
-        internal int Index = -1;
+        #endregion
+        #region ICollection Members
+        public void Add(Node<T> newNode)
+        {
+            if (newNode.Owner is null || newNode.Owner != this) newNode.Owner = this;
 
-        public T Value;
-        public Node<T>? Next;
+            OnCommand?.Invoke(this, new NodeEventsArgs<T> { TypeOfCommand = NodeCommandType.NodeAdded, Target = newNode });
+        }
 
-        public Node()
+        public void Clear()
         {
-            Value = default;
+            this.First = null;
+            this.Last = null;
+            this._currentPointer = -1;
         }
-        public Node(T input)
+
+        public bool Contains(Node<T> item)
         {
-            Value = input;
-        }
-        public Node(T input, EventLL<T> owner) : this(input) 
-        {
-            owner.OnCommand += this.HandleEvent!;
-        }
-        private void HandleEvent(object sender, NodeEventsArgs<T> arg)
-        {
-            switch (arg.TypeOfCommand)
+            var arg = new NodeEventsArgs<T>()
             {
-                case NodeCommandType.NodeAdded:
-                    if (this.Index == (arg.Target.Index - 1)) { arg.Target.Next = this.Next; this.Next = arg.Target; }
-                    if (this.Index >= (arg.Target.Index)) { this.Index++; }
-                    break;
-                case NodeCommandType.GetCount:
-                    lock (locker) {
-                        arg.CountResult = Math.Max(arg.CountResult, this.Index);
-                    }
-                    break;
-                case NodeCommandType.NodeRemoved:
-                    break;
-                case NodeCommandType.NodeSearchByIndex:
-                    break;
-                case NodeCommandType.NodeSearchByValue:
-                    break;
-                default:
-                    break;
-            }
+                TypeOfCommand = NodeCommandType.NodeSearchByValue,
+                Target = new Node<T>() { Value = item.Value }
+            };
+            OnCommand?.Invoke(this, arg);
+            return (arg.searchByValueResult is not null);
         }
+        public bool Contains(T item) => this.Contains(new Node<T>(item));
+
+
+        public void CopyTo(Node<T>[] array, int index)
+        {
+            if (array == null) throw new ArgumentNullException("array is null");
+            if (array.Length == 0) throw new ArgumentException("Zero length array.");
+            if (array.Rank != 1) throw new ArgumentException("Can't do multi dimensional arrays");
+            if (index < 0 || index > array.Length - 1) throw new ArgumentOutOfRangeException("index is less than zero or out of bound.");
+            if (First == null) throw new ArgumentNullException("This is an empty List.");
+            if (array.Length - index < this.Count) throw new ArgumentOutOfRangeException("there isn't enough space in your array to copy in to.");
+            var arg = new NodeEventsArgs<T>()
+            {
+                TypeOfCommand = NodeCommandType.CopyToArray,
+                DestinationArray = array,
+                DestinationArrayStartingIndex = index,
+            };
+            OnCommand?.Invoke(this, arg);
+
+        }
+
+        public bool Remove(Node<T> item)
+        {
+            var arg = new NodeEventsArgs<T>()
+            {
+                TypeOfCommand = NodeCommandType.NodeRemoved,
+                Target = item,
+                RemoveResult = false
+            };
+            OnCommand?.Invoke(this, arg);
+            return arg.RemoveResult;
+        }
+        #endregion
+
+
+        #region Constructors
+        public EventLL(T nodeValue)
+        {
+            Node<T> newNode = new Node<T>(nodeValue, this);
+
+            var arg = new NodeEventsArgs<T>() { TypeOfCommand = NodeCommandType.NodeAdded, Target = newNode };
+            OnCommand.Invoke(this, arg);
+        }
+        public EventLL()
+        {
+        } 
+        #endregion
     }
+
 }

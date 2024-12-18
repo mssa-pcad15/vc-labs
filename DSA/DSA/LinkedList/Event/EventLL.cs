@@ -33,7 +33,9 @@ namespace DSA.LinkedList.Event
             }
         }
 
-        public bool IsReadOnly => false; 
+        public bool IsReadOnly => false;
+
+        public Node<T> this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         #endregion
 
         //Event
@@ -93,6 +95,7 @@ namespace DSA.LinkedList.Event
 
 
         #endregion
+
         #region ICollection Members
         public void Add(Node<T> newNode)
         {
@@ -150,8 +153,37 @@ namespace DSA.LinkedList.Event
             OnCommand?.Invoke(this, arg);
             return arg.RemoveResult;
         }
+
+
+        #region IList
+        public int IndexOf(Node<T> item)
+        {
+            var arg = new NodeEventsArgs<T>()
+            {
+                TypeOfCommand = NodeCommandType.NodeSearchByValue,
+                Target = item
+            };
+            OnCommand?.Invoke(this, arg);
+            return arg.Target.Index;
+        }
+
+        public void Insert(int index, Node<T> item)
+        {
+            var arg = new NodeEventsArgs<T>()
+            {
+                TypeOfCommand = NodeCommandType.NodeAdded,
+                Target = item,
+
+            };
+        }
+
+        public void RemoveAt(int index)
+        {
+            throw new NotImplementedException();
+        }
+
         //Team3
-        #endregion
+        #endregion IList
 
 
         #region Constructors

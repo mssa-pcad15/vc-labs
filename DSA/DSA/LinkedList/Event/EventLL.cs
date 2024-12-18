@@ -22,14 +22,25 @@ namespace DSA.LinkedList.Event
         private int _currentPointer = -1;
         object? IEnumerator.Current => this.Current;
         Node<T>? IEnumerator<Node<T>?>.Current => this.Current;
+        internal bool _refreshCount=true;
+        private int _cachedCount=0;
 
         public int Count
         {
             get
             {
-                var arg = new NodeEventsArgs<T>() { TypeOfCommand = NodeCommandType.GetCount };
-                OnCommand?.Invoke(this, arg); //raising the event
-                return arg.CountResult; // can you make this work better?
+                if (_refreshCount)
+                {
+                    var arg = new NodeEventsArgs<T>() { TypeOfCommand = NodeCommandType.GetCount };
+                    OnCommand?.Invoke(this, arg);
+                    _cachedCount = arg.CountResult;//raising the event
+                    _refreshCount = false;
+                    return _cachedCount; // can you make this work better?}
+                }
+                else
+                {
+                    return _cachedCount;
+                }
             }
         }
 
@@ -132,6 +143,7 @@ namespace DSA.LinkedList.Event
             if (newNode.Owner is null || newNode.Owner != this) newNode.Owner = this;
 
             OnCommand?.Invoke(this, new NodeEventsArgs<T> { TypeOfCommand = NodeCommandType.NodeAdded, Target = newNode });
+            this._refreshCount = true;
         }
 
         public void Clear()
@@ -144,14 +156,21 @@ namespace DSA.LinkedList.Event
 
         public bool Contains(Node<T> item)
         {
+            NodeEventsArgs<T> arg = SearchByItem(item);
+            return (arg.searchByValueResult is not null);
+        }
+
+        private NodeEventsArgs<T> SearchByItem(Node<T> item)
+        {
             var arg = new NodeEventsArgs<T>()
             {
                 TypeOfCommand = NodeCommandType.NodeSearchByValue,
                 Target = new Node<T>() { Value = item.Value }
             };
             OnCommand?.Invoke(this, arg);
-            return (arg.searchByValueResult is not null);
+            return arg;
         }
+
         public bool Contains(T item) => this.Contains(new Node<T>(item));
         //Team2
 
@@ -181,23 +200,38 @@ namespace DSA.LinkedList.Event
                 RemoveResult = false
             };
             OnCommand?.Invoke(this, arg);
+            this._refreshCount = true;
             return arg.RemoveResult;
         }
         #region IList Implementation
 
         public int IndexOf(Node<T> item)
         {
-            throw new NotImplementedException();
+            NodeEventsArgs<T> arg = SearchByItem(item);
+            if (arg.searchByValueResult != null) return arg.searchByValueResult[0].Index;
+            else return - 1;
+        }
+        //public int[] IndexOfAll(Node<T> item)
+        //{
+        //    NodeEventsArgs<T> arg = SearchByItem(item);
+        //    if (arg.searchByValueResult != null) return arg.searchByValueResult;
+        //    else return -1;
+        //}
+        public int IndexOf(T item)
+        {   
+            return this.IndexOf(new Node<T>(item));
+            
         }
 
         public void Insert(int index, Node<T> item)
         {
-            throw new NotImplementedException();
+            item.Index = index;
+            Add(item);
         }
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            this.Remove(this[index]);
         }
 
         #endregion
@@ -212,6 +246,7 @@ namespace DSA.LinkedList.Event
 
             var arg = new NodeEventsArgs<T>() { TypeOfCommand = NodeCommandType.NodeAdded, Target = newNode };
             OnCommand.Invoke(this, arg);
+            _refreshCount = true;
         }
         public EventLL()
         {

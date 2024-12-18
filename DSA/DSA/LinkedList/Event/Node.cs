@@ -55,6 +55,7 @@ namespace DSA.LinkedList.Event
             switch (arg.TypeOfCommand)
             {
                 case NodeCommandType.NodeAdded:
+                   
                     if (owner.Count == 0)
                     { //if this is the first Node ever
                         owner.First = this;
@@ -77,9 +78,45 @@ namespace DSA.LinkedList.Event
 
                     //if we get here, its a node with some index to insert into.
                     //The node before the insertion point is going to responde in the following way
-                    if (this.Index == (arg.Target.Index - 1)) { arg.Target.Next = this.Next; this.Next = arg.Target; return; }
-                    //the node after the insertion point is goint to increment their index
-                    if (this.Index >= (arg.Target.Index)) { this.Index++; return; }
+
+                    if (arg.Target.Index == 0 && this.Index==0)
+                    {
+                        this.Owner.First = arg.Target;
+                        arg.Target.Next = this;
+                        this.Index++;
+                        var n = this;
+                        while (n.Next != null) {
+                            n= n.Next;
+                            n.Index++;
+                        }
+                        return;
+                    }
+
+                    if (this==Owner!.Last && arg.Target.Index > this.Index)//append to last
+                    {
+                        this.Next = arg.Target;
+                        Owner.Last = arg.Target;
+                        arg.Target.Index = this.Index + 1;
+                        return;
+                    }
+
+                    // insert and push remainder to the right
+                    if (this.Index == arg.Target.Index-1)
+                    {
+                        arg.Target.Next = this.Next!;
+                        this.Next = arg.Target;
+                       
+                        var n = arg.Target.Next;
+                        n.Index++;
+
+                        while (n.Next != null)
+                        {
+                          n = n.Next;
+                            n.Index++;
+                        }
+                        return;
+                    }
+
                     break;
                 case NodeCommandType.GetCount:
                     lock (locker)
@@ -93,6 +130,7 @@ namespace DSA.LinkedList.Event
                     }
                     break;
                 case NodeCommandType.NodeRemoved:
+                    
                     if (this == _owner.Last) return;//there is nothing for the last node to do.
 
                     if (this.Value.Equals(arg.Target.Value) && this == _owner.First)
@@ -111,24 +149,26 @@ namespace DSA.LinkedList.Event
                         arg.RemoveResult = true;
                         return;
                     }
-
-                    if (this.Next.Value.Equals(arg.Target.Value))
+                    if (this.Next is not null)
                     {
-                        this.Next.RemoveEventHandler();
-                        this.Next = this.Next.Next;
-                        Node<T> node = this;
-                        lock (locker)
+                        if (this.Next.Value.Equals(arg.Target.Value))
                         {
-                            while (node.Next is not null)
+                            this.Next.RemoveEventHandler();
+                            this.Next = this.Next.Next;
+                            Node<T> node = this;
+                            lock (locker)
                             {
-                                node.Next.Index--;
-                                node = node.Next;
+                                while (node.Next is not null)
+                                {
+                                    node.Next.Index--;
+                                    node = node.Next;
+                                }
                             }
+                            owner.Last = node;
+                            arg.RemoveResult = true;
+                            return;
                         }
-                        arg.RemoveResult = true;
-                        return;
                     }
-
                     break;
                 case NodeCommandType.CopyToArray:
                     arg.DestinationArray![arg.DestinationArrayStartingIndex + this.Index] = this;

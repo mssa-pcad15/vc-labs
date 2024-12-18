@@ -248,6 +248,189 @@ namespace DSATest.LinkedListTest.EventTest
             Assert.ThrowsException<IndexOutOfRangeException>(() => l[3] = new Node<string>("test"));
 
         }
+
+        [TestMethod]
+        public void EventLLIndexOfTest()
+        {
+            EventLL<string> l =
+              [new Node<string>("Zero"),
+                new Node<string>("One"),
+                new Node<string>("Two"),
+                new Node<string>("Three"),
+                new Node<string>("Four"),
+                new Node<string>("Five")];
+
+            Assert.AreEqual(0, l.IndexOf("Zero"));
+            Assert.AreEqual(1, l.IndexOf("One"));
+            Assert.AreEqual(5, l.IndexOf("Five"));
+            Assert.AreEqual(3, l.IndexOf("Three"));
+        }
+        [TestMethod]
+        public void EventLLIndexOfNodeTest()
+        {
+            EventLL<string> l =
+              [new Node<string>("Zero"),
+                new Node<string>("One"),
+                new Node<string>("Two"),
+                new Node<string>("Three"),
+                new Node<string>("Four"),
+                new Node<string>("Five")];
+
+            Assert.AreEqual(0, l.IndexOf(new Node<string>("Zero")));
+            Assert.AreEqual(1, l.IndexOf(new Node<string>("One")));
+            Assert.AreEqual(3, l.IndexOf(new Node<string>("Three")));
+            Assert.AreEqual(5, l.IndexOf(new Node<string>("Five")));
+        
+        }
+
+        [TestMethod]
+        public void EventLLInsertFirstTest()
+        {
+            EventLL<string> l =
+              [new Node<string>("Zero"),
+                new Node<string>("One"),
+                new Node<string>("Two"),
+                new Node<string>("Three"),
+               ];
+
+            l.Insert(0, new Node<string>("BeforeZero"));
+            Assert.IsTrue(l.Contains("BeforeZero"));
+            Assert.IsTrue(l.First!.Value == "BeforeZero");
+            Assert.IsTrue(l.Last!.Value == "Three");
+            Assert.IsTrue(l.Count==5);
+        }
+        [TestMethod]
+        public void EventLLInsertSecondTest()
+        {
+            EventLL<string> l =
+              [new Node<string>("Zero"),
+                new Node<string>("One"),
+                new Node<string>("Two"),
+                new Node<string>("Three"),
+               ];
+
+            l.Insert(1, new Node<string>("AfterZero"));
+            Assert.IsTrue(l.Contains("AfterZero"));
+            Assert.IsTrue(l.First!.Value == "Zero");
+            Assert.IsTrue(l[1].Value == "AfterZero");
+            Assert.IsTrue(l.Last!.Value == "Three");
+            Assert.IsTrue(l.Count == 5);
+        }
+        [TestMethod]
+        public void EventLLInsertThirdTest()
+        {
+            EventLL<string> l =
+              [new Node<string>("Zero"),
+                new Node<string>("One"),
+                new Node<string>("Two"),
+                new Node<string>("Three"),
+               ];
+
+            l.Insert(2, new Node<string>("AfterOne"));
+            Assert.IsTrue(l.Contains("AfterOne"));
+            Assert.IsTrue(l.First!.Value == "Zero");
+            Assert.IsTrue(l[2].Value == "AfterOne");
+            Assert.IsTrue(l.Last!.Value == "Three");
+            Assert.IsTrue(l.Count == 5);
+
+        }
+        [TestMethod]
+        public void EventLLInsertBeforeLastTest()
+        {
+            EventLL<string> l =
+              [new Node<string>("Zero"),
+                new Node<string>("One"),
+                new Node<string>("Two"),//insert here
+                new Node<string>("Three"),
+               ];
+            l.Insert(3, new Node<string>("AfterTwo"));
+            Assert.IsTrue(l.Contains("AfterTwo"));
+            Assert.IsTrue(l.First!.Value == "Zero");
+            Assert.IsTrue(l[3].Value == "AfterTwo");
+            Assert.IsTrue(l.Last!.Value == "Three");
+            Assert.IsTrue(l.Count == 5);
+        }
+        [TestMethod]
+        public void EventLLInsertLastTest()
+        {
+            EventLL<string> l =
+              [new Node<string>("Zero"),
+                new Node<string>("One"),
+                new Node<string>("Two"),
+                new Node<string>("Three"),//insert here
+               ];
+            l.Insert(4, new Node<string>("AfterThree"));
+            Assert.IsTrue(l.Contains("AfterThree"));
+            Assert.IsTrue(l.First!.Value == "Zero");
+            Assert.IsTrue(l[4].Value == "AfterThree");
+            Assert.IsTrue(l.Last!.Value == "AfterThree");
+            Assert.IsTrue(l.Count == 5);
+        }
+        [TestMethod]
+        public void EventLLInsertAfterLastTest()
+        {
+            EventLL<string> l =
+              [new Node<string>("Zero"),
+                new Node<string>("One"),
+                new Node<string>("Two"),
+                new Node<string>("Three"),//insert here
+               ];
+            l.Insert(5, new Node<string>("AfterThree"));
+            Assert.IsTrue(l.Contains("AfterThree"));
+            Assert.IsTrue(l.First!.Value == "Zero");
+            Assert.IsTrue(l[4].Value == "AfterThree");
+            Assert.IsTrue(l.Last!.Value == "AfterThree");
+            Assert.IsTrue(l.Count == 5);
+        }
+
+        [TestMethod]
+        public void EventLLRemoveAtZeroTest()
+        {
+            EventLL<string> l =
+              [new Node<string>("Zero"),
+                new Node<string>("One"),
+                new Node<string>("Two"),
+                new Node<string>("Three"),//insert here
+               ];
+
+            l.RemoveAt(0);
+            Assert.IsTrue(l.First!.Value == "One");
+            Assert.IsTrue(l.Last!.Value == "Three");
+            Assert.AreEqual(3, l.Count);
+        }
+
+        [TestMethod]
+        public void EventLLRemoveAtOneTest()
+        {
+            EventLL<string> l =
+              [new Node<string>("Zero"),
+                new Node<string>("One"),
+                new Node<string>("Two"),
+                new Node<string>("Three"),//insert here
+               ];
+            l.RemoveAt(1);
+            Assert.IsTrue(l.First!.Value == "Zero");
+            Assert.IsTrue(l[1].Value == "Two");
+            Assert.IsTrue(l.Last!.Value == "Three");
+            Assert.AreEqual(3, l.Count);
+        }
+
+        [TestMethod]
+        public void EventLLRemoveAtLastTest()
+        {
+            EventLL<string> l =
+              [new Node<string>("Zero"),
+                new Node<string>("One"),
+                new Node<string>("Two"),
+                new Node<string>("Three"),//insert here
+               ];
+            l.RemoveAt(3);
+            Assert.IsTrue(l.First!.Value == "Zero");
+            Assert.IsTrue(l[1].Value == "One");
+            Assert.IsTrue(l[2].Value == "Two");
+            Assert.IsTrue(l.Last!.Value == "Two");
+            Assert.AreEqual(3, l.Count);
+        }
     }
 }
 

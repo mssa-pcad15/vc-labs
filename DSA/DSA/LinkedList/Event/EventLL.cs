@@ -33,7 +33,49 @@ namespace DSA.LinkedList.Event
             }
         }
 
-        public bool IsReadOnly => false; 
+        public bool IsReadOnly => false;
+
+        public Node<T> this[int index] 
+        {
+            get //  Node x = aInstance[6];
+            {
+                if (index < 0 || index >= this.Count) throw new IndexOutOfRangeException();
+                if (index == 0) return First!;
+                if (index == Count - 1) return Last!;
+                Node<T> n = First!;
+                for (int i = 0; i < index; i++)
+                {
+                    if (n.Next != null) { n = n.Next; }
+                }
+                return n;
+            }
+            set   // aInstance[3] = new Node("....");
+                  //should replace item at index location, not insert
+            {
+                if (index < 0 || index > Count - 1) { throw new IndexOutOfRangeException(); }
+
+                if (index == 0)
+                {
+                    value.Next = First.Next;
+                    First = value!;
+                    return;
+                }//first node
+                if (index == Count - 1) { Last = value!; return; }//last node
+
+                //nodes in between
+                Node<T>? n = First!;
+                for (int i = 0; i < index; i++)
+                {
+                    if (i == index - 1)
+                    {
+                        value.Next = n.Next!.Next;
+                        n.Next = value;
+                        return;
+                    }
+                    n = n.Next!;
+                }
+            }
+        }
         #endregion
 
         //Event
@@ -150,6 +192,28 @@ namespace DSA.LinkedList.Event
             OnCommand?.Invoke(this, arg);
             return arg.RemoveResult;
         }
+
+        public int IndexOf(Node<T> item)
+        {
+            var arg = new NodeEventsArgs<T>()
+            {
+                TypeOfCommand = NodeCommandType.NodeSearchByValue,
+                Target = item
+            };
+            OnCommand?.Invoke(this, arg);
+            return arg.Target.Index;
+        }
+
+        public void Insert(int index, Node<T> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAt(int index)
+        {
+            throw new NotImplementedException();
+        }
+
         //Team3
         #endregion
 

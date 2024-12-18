@@ -19,6 +19,9 @@ namespace DSA.LinkedList.Event
         internal Node<T>[]? DestinationArray;
         internal int DestinationArrayStartingIndex;
 
+        internal T? SearchByValueReturnIndex;// replace with something
+        internal Node<T>? SearchByValueReturnIndexResult;// replace with something
+
         public bool RemoveResult { get; internal set; }
     }
     internal enum NodeCommandType
@@ -28,6 +31,7 @@ namespace DSA.LinkedList.Event
         NodeSearchByIndex,
         NodeSearchByValue,
         GetCount,
-        CopyToArray
+        CopyToArray,
+        NodeSearchByValueReturnIndex // replace with something
     }
 }

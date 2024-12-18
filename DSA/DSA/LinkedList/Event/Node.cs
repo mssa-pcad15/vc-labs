@@ -145,6 +145,10 @@ namespace DSA.LinkedList.Event
                         }
                     }
                     break;
+                case NodeCommandType.NodeSearchByValueReturnIndex: // replace with something
+
+                    //if (this.Value!.Equals(arg.Target.Value)) { arg.SearchByValueReturnIndexResult = this.Index }
+                    break;
                 default:
                     break;
             }

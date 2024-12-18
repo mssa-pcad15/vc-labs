@@ -200,7 +200,19 @@ namespace DSATest.LinkedListTest.EventTest
             Assert.IsTrue(l.Remove(new Node<string>("There")));
             Assert.AreEqual(2,l.Count);
         }
-    
-    
+
+        [TestMethod]
+        public void EventLLIndexOfTest()
+        {
+            EventLL<string> l = [new Node<string>("Hello"), new Node<string>("World"), new Node<string>("There")];
+            Assert.AreEqual("Hello", l.First.Value);
+            Assert.AreEqual("World", l.First.Next.Value);
+            Assert.AreEqual("There", l.First.Next.Next.Value);
+            Assert.AreEqual(0, l[0].Index);
+            int result = l.IndexOf(new Node<string>("Hello")) + 1;
+            int result2 = l.IndexOf(new Node<string>("World")) + 1;
+            Assert.AreEqual(0, result);
+            Assert.AreEqual(1, result2);
+        }
     }
 }

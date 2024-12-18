@@ -16,6 +16,16 @@ namespace DSA.LinkedList.Event
         IEnumerable<Node<T>>, IEnumerator<Node<T>?>,ICollection<Node<T>>,IList<Node<T>>
     {
         #region List Properties
+        public Node<T> this[int index] 
+        {
+                    
+            get => throw new NotImplementedException(); 
+            
+            set => throw new NotImplementedException(); 
+                        
+        }
+
+
         public Node<T>? First = null;
         public Node<T>? Last = null;
         public Node<T>? Current = null;
@@ -33,7 +43,8 @@ namespace DSA.LinkedList.Event
             }
         }
 
-        public bool IsReadOnly => false; 
+        public bool IsReadOnly => false;
+
         #endregion
 
         //Event
@@ -94,12 +105,6 @@ namespace DSA.LinkedList.Event
 
         #endregion
         #region ICollection Members
-        public void Add(Node<T> newNode)
-        {
-            if (newNode.Owner is null || newNode.Owner != this) newNode.Owner = this;
-
-            OnCommand?.Invoke(this, new NodeEventsArgs<T> { TypeOfCommand = NodeCommandType.NodeAdded, Target = newNode });
-        }
 
         public void Clear()
         {
@@ -150,6 +155,29 @@ namespace DSA.LinkedList.Event
             OnCommand?.Invoke(this, arg);
             return arg.RemoveResult;
         }
+
+        //IList
+        public int IndexOf(Node<T> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Insert(int index, Node<T> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAt(int index)
+        {
+            throw new NotImplementedException();
+        }
+        public void Add(Node<T> newNode)
+        {
+            if (newNode.Owner is null || newNode.Owner != this) newNode.Owner = this;
+
+            OnCommand?.Invoke(this, new NodeEventsArgs<T> { TypeOfCommand = NodeCommandType.NodeAdded, Target = newNode });
+        }
+
         //Team3
         #endregion
 

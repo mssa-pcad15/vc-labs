@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DSA.DataStructure;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,11 +19,16 @@ namespace DSA.LinkedList.Event
         #region List Properties
         public Node<T> this[int index] 
         {
-                    
-            get => throw new NotImplementedException(); 
-            
-            set => throw new NotImplementedException(); 
-                        
+
+            get
+            {
+                return GetNode(index);
+            }
+            set
+            {
+                SetNode(index, value);
+            }
+
         }
 
 
@@ -126,6 +132,12 @@ namespace DSA.LinkedList.Event
         }
         public bool Contains(T item) => this.Contains(new Node<T>(item));
         //Team2
+        public void Add(Node<T> newNode)
+        {
+            if (newNode.Owner is null || newNode.Owner != this) newNode.Owner = this;
+
+            OnCommand?.Invoke(this, new NodeEventsArgs<T> { TypeOfCommand = NodeCommandType.NodeAdded, Target = newNode });
+        }
 
         public void CopyTo(Node<T>[] array, int index)
         {
@@ -155,7 +167,7 @@ namespace DSA.LinkedList.Event
             OnCommand?.Invoke(this, arg);
             return arg.RemoveResult;
         }
-
+        
         //IList
         public int IndexOf(Node<T> item)
         {
@@ -171,12 +183,40 @@ namespace DSA.LinkedList.Event
         {
             throw new NotImplementedException();
         }
-        public void Add(Node<T> newNode)
-        {
-            if (newNode.Owner is null || newNode.Owner != this) newNode.Owner = this;
 
-            OnCommand?.Invoke(this, new NodeEventsArgs<T> { TypeOfCommand = NodeCommandType.NodeAdded, Target = newNode });
+        public Node<T> GetNode(int index)
+        {
+
+
+            if(this.First == null) throw new ArgumentNullException("empty list");
+            if (index>this.Count-1||index<0)
+                throw new ArgumentOutOfRangeException("index is out of range");
+            (bool isFound, Node<T>? foundNode) = nodeExistsByIndex(index);
+
+            return (foundNode is not null) ? foundNode : throw new IndexOutOfRangeException();  
+
+
         }
+        public void SetNode(int index,Node<T> newNode)
+        {
+            if (this.First == null) throw new ArgumentNullException("empty list");
+            if (index > this.Count - 1 || index < 0)
+                throw new ArgumentOutOfRangeException("index is out of range");
+
+            newNode.Index = index;
+
+            var arg = new NodeEventsArgs<T>()
+            {
+                TypeOfCommand = NodeCommandType.ReplaceNode,
+                Target = newNode
+            };
+
+            OnCommand?.Invoke(this, arg);
+
+
+        }
+
+
 
         //Team3
         #endregion

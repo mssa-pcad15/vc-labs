@@ -20,6 +20,10 @@ namespace DSA.LinkedList.Event
         internal int DestinationArrayStartingIndex;
 
         public bool RemoveResult { get; internal set; }
+
+        
+      
+      
     }
     internal enum NodeCommandType
     { 
@@ -28,6 +32,7 @@ namespace DSA.LinkedList.Event
         NodeSearchByIndex,
         NodeSearchByValue,
         GetCount,
-        CopyToArray
+        CopyToArray,
+            ReplaceNode
     }
 }

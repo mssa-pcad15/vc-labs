@@ -145,6 +145,17 @@ namespace DSA.LinkedList.Event
                         }
                     }
                     break;
+                
+
+                case NodeCommandType.ReplaceNode:
+                    if (arg.Target.Index == this.Index)
+                    {
+                        arg.Target.Value = this.Value; 
+                    }
+
+                    break;
+
+
                 default:
                     break;
             }

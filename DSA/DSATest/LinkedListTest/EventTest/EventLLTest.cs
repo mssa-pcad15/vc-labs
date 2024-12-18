@@ -186,7 +186,8 @@ namespace DSATest.LinkedListTest.EventTest
 
            Assert.IsTrue(l.Remove(new Node<string>("Two")));
             Assert.AreEqual(5, l.Count);
-            Assert.AreEqual("Zero", l.First.Value);
+            Assert.AreEqual("Zero", l[0].Value);
+            //Assert.AreEqual("Zero", l.First.Value);
             Assert.AreEqual(0, l.First.Index);
             var three = l.First.Next.Next;
             Assert.AreEqual(2, three.Index);

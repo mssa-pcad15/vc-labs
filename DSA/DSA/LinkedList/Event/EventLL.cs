@@ -27,8 +27,8 @@ namespace DSA.LinkedList.Event
             get
             {
                 var arg = new NodeEventsArgs<T>() { TypeOfCommand = NodeCommandType.GetCount };
-                OnCommand?.Invoke(this, arg);
-                return arg.CountResult;
+                OnCommand?.Invoke(this, arg); //raising the event
+                return arg.CountResult; // can you make this work better?
             }
         }
 
@@ -56,8 +56,8 @@ namespace DSA.LinkedList.Event
 
         public bool MoveNext()
         {
-            if (First == null || Last == null) return false;
-            if (_currentPointer == -1)
+            if (First == null || Last == null) return false; // empty list return
+            if (_currentPointer == -1) //_currentPoint in initial position
             {
                 _currentPointer = 0;
                 this.Current = this.First;
@@ -65,7 +65,10 @@ namespace DSA.LinkedList.Event
             }
             _currentPointer++;
             (bool doesExist, Node<T>? foundNode) = nodeExistsByIndex(_currentPointer);
-            this.Current = foundNode;
+            if (foundNode is not null)
+            {
+                this.Current = foundNode;
+            }
 
             return doesExist;
         }
@@ -103,6 +106,7 @@ namespace DSA.LinkedList.Event
             this.Last = null;
             this._currentPointer = -1;
         }
+        //Team1
 
         public bool Contains(Node<T> item)
         {
@@ -115,7 +119,7 @@ namespace DSA.LinkedList.Event
             return (arg.searchByValueResult is not null);
         }
         public bool Contains(T item) => this.Contains(new Node<T>(item));
-
+        //Team2
 
         public void CopyTo(Node<T>[] array, int index)
         {
@@ -134,7 +138,6 @@ namespace DSA.LinkedList.Event
             OnCommand?.Invoke(this, arg);
 
         }
-
         public bool Remove(Node<T> item)
         {
             var arg = new NodeEventsArgs<T>()
@@ -146,6 +149,7 @@ namespace DSA.LinkedList.Event
             OnCommand?.Invoke(this, arg);
             return arg.RemoveResult;
         }
+        //Team3
         #endregion
 
 

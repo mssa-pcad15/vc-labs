@@ -200,7 +200,54 @@ namespace DSATest.LinkedListTest.EventTest
             Assert.IsTrue(l.Remove(new Node<string>("There")));
             Assert.AreEqual(2,l.Count);
         }
-    
-    
+
+
+        [TestMethod]
+        public void EventLLIndexerGetTest()
+        {
+            EventLL<string> l =
+                [new Node<string>("Hello"), new Node<string>("World"), new Node<string>("There")];
+
+            Assert.AreEqual("Hello", l[0].Value);
+            Assert.AreEqual("World", l[1].Value);
+            Assert.AreEqual("There", l[2].Value);
+        }
+        [TestMethod]
+        public void EventLLIndexerSetTest()
+        {
+            EventLL<string> l =
+                [new Node<string>("Hello"), new Node<string>("World"), new Node<string>("There")];
+            l[0] = new Node<string>("HelloV2");
+            l[1] = new Node<string>("WorldV2");
+            l[2] = new Node<string>("ThereV2");
+            Assert.AreEqual("HelloV2", l[0].Value);
+            Assert.AreEqual("WorldV2", l[1].Value);
+            Assert.AreEqual("ThereV2", l[2].Value);
+        }
+        [TestMethod]
+        public void EventLLIndexerGetExceptionTest()
+        {
+            EventLL<string> l = new();
+            Assert.ThrowsException<InvalidOperationException>(() => l[0]);
+            l =
+                [new Node<string>("Hello"), new Node<string>("World"), new Node<string>("There")];
+            
+            Assert.ThrowsException<IndexOutOfRangeException>(()=> l[-1]);
+            Assert.ThrowsException<IndexOutOfRangeException>(() => l[3]);
+          
+        }
+        [TestMethod]
+        public void EventLLIndexerSetExceptionTest()
+        {
+            EventLL<string> l = new();
+            Assert.ThrowsException<InvalidOperationException>(() => l[0] = new Node<string>("test"));
+            l =
+                [new Node<string>("Hello"), new Node<string>("World"), new Node<string>("There")];
+
+            Assert.ThrowsException<IndexOutOfRangeException>(() => l[-1] = new Node<string>("test"));
+            Assert.ThrowsException<IndexOutOfRangeException>(() => l[3] = new Node<string>("test"));
+
+        }
     }
 }
+

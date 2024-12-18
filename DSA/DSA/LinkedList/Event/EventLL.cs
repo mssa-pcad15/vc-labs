@@ -33,7 +33,40 @@ namespace DSA.LinkedList.Event
             }
         }
 
-        public bool IsReadOnly => false; 
+        public bool IsReadOnly => false;
+        #endregion
+
+        #region Indexer Property IList<T>
+        public Node<T> this[int index]
+        {
+            get => getNodeById(index);
+            set => setNodeById(index, value);
+        }
+
+        private void setNodeById(int index, Node<T> newNode)
+        {
+            if (this.First == null) { throw new InvalidOperationException("List is empty."); }
+            if (index > Count - 1 || index < 0) { throw new IndexOutOfRangeException(); }
+            newNode.Index = index;
+            var arg = new NodeEventsArgs<T>()
+            {
+                TypeOfCommand = NodeCommandType.ReplaceNode,
+                Target = newNode
+            };
+
+            OnCommand?.Invoke(this, arg);
+        }
+
+        private Node<T> getNodeById(int index)
+        {
+            if (this.First is null) { throw new InvalidOperationException("List is empty."); }
+            if (index > Count - 1 || index < 0) { throw new IndexOutOfRangeException(); }
+            (bool isFound, Node<T>? foundNode) = nodeExistsByIndex(index);
+
+            return (foundNode is not null) ? foundNode : throw new IndexOutOfRangeException($"Unable to find node at index {index}");
+
+        }
+
         #endregion
 
         //Event
@@ -150,6 +183,24 @@ namespace DSA.LinkedList.Event
             OnCommand?.Invoke(this, arg);
             return arg.RemoveResult;
         }
+        #region IList Implementation
+
+        public int IndexOf(Node<T> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Insert(int index, Node<T> item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAt(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
         //Team3
         #endregion
 

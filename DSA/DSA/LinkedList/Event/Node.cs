@@ -87,6 +87,11 @@ namespace DSA.LinkedList.Event
                         arg.CountResult = Math.Max(arg.CountResult, this.Index + 1);
                     }
                     break;
+                case NodeCommandType.ReplaceNode:
+                    if (this.Index == arg.Target.Index) {
+                        this.Value = arg.Target.Value;
+                    }
+                    break;
                 case NodeCommandType.NodeRemoved:
                     if (this == _owner.Last) return;//there is nothing for the last node to do.
 

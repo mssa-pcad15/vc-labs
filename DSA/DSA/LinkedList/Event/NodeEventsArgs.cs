@@ -28,6 +28,7 @@ namespace DSA.LinkedList.Event
         NodeSearchByIndex,
         NodeSearchByValue,
         GetCount,
-        CopyToArray
+        CopyToArray,
+        ReplaceNode,
     }
 }

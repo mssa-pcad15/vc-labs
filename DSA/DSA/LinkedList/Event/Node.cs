@@ -9,7 +9,7 @@ namespace DSA.LinkedList.Event
     public class Node<T>
     {
         static object locker = new object();
-        internal int Index = -1;
+        public int Index = -1;
         private EventLL<T>? _owner;
         internal EventLL<T>? Owner
         {

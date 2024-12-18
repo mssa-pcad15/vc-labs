@@ -12,7 +12,8 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DSA.LinkedList.Event
 {
-    public class EventLL<T> : IEnumerable<Node<T>>, IEnumerator<Node<T>?>,ICollection<Node<T>>
+    public class EventLL<T> : 
+        IEnumerable<Node<T>>, IEnumerator<Node<T>?>,ICollection<Node<T>>,IList<Node<T>>
     {
         #region List Properties
         public Node<T>? First = null;

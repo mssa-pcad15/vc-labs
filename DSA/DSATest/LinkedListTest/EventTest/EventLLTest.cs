@@ -177,10 +177,19 @@ namespace DSATest.LinkedListTest.EventTest
         public void EventLLRemoveMiddleTest()
         {
             EventLL<string> l =
-                [new Node<string>("Hello"), new Node<string>("World"), new Node<string>("There")];
+                [new Node<string>("Zero"), 
+                new Node<string>("One"),
+                new Node<string>("Two"),
+                new Node<string>("Three"),
+                new Node<string>("Four"),
+                new Node<string>("Five")];
 
-           Assert.IsTrue(l.Remove(new Node<string>("World")));
-            Assert.AreEqual(2, l.Count);
+           Assert.IsTrue(l.Remove(new Node<string>("Two")));
+            Assert.AreEqual(5, l.Count);
+            Assert.AreEqual("Zero", l.First.Value);
+            Assert.AreEqual(0, l.First.Index);
+            var three = l.First.Next.Next;
+            Assert.AreEqual(2, three.Index);
         }
         [TestMethod]
         public void EventLLRemoveEndTest()

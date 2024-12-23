@@ -3,13 +3,19 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+internal class Program
+{
+    private static async Task Main(string[] args)
+    {
+        HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
-var services = new ServiceCollection();
+        builder.Logging.ClearProviders();
+        builder.Logging.AddConsole();
+        var services = new ServiceCollection();
 
-builder.Services.AddHostedService<ExampleHostedService>();
-using IHost host = builder.Build();
+        builder.Services.AddHostedService<ExampleHostedService>();
+        using IHost host = builder.Build();
 
-await host.RunAsync();
+        await host.RunAsync();
+    }
+}

@@ -1,9 +1,20 @@
+
+using RazorPagesMovie;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddSingleton(typeof(Counter), new Counter());
+//AddSingleton is used for "GLOBAL" "STATEFUL" service
+//lottery history
+//leaderboard
+//cache service
+//step 2, add Menu to DI Container
+//line 15 is the same as line 8, just use a shorter version of syntax
+builder.Services.AddSingleton<Menu>(new Menu { ProteinOfTheDay = "Chicken", SoupOfTheDay = "Tomato" });
 
-var app = builder.Build();
+WebApplication ? app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

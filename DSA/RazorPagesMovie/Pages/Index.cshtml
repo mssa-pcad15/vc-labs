@@ -5,6 +5,8 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1>Views : @this.Model.PageViews</h1>
+
+    <h2>Protein of the day is: @this.Model.Menu.ProteinOfTheDay </h2>
+    <h2>Soup of the day is: @this.Model.Menu.SoupOfTheDay </h2>
 </div>

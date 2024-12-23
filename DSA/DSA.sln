@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericHostDemo", "GenericH
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fundamentals", "Fundamentals", "{F04846A1-7B0E-47EF-B52E-0146A5340024}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorPagesMovie", "RazorPagesMovie\RazorPagesMovie.csproj", "{134E9B2A-1EA6-45AB-A6FA-F9EA583CB111}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RazorPagesMovie", "RazorPagesMovie\RazorPagesMovie.csproj", "{134E9B2A-1EA6-45AB-A6FA-F9EA583CB111}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

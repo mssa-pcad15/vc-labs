@@ -7,13 +7,17 @@ namespace RazorPagesMovie.Pages
     {
         private readonly ILogger<PrivacyModel> _logger;
 
-        public PrivacyModel(ILogger<PrivacyModel> logger)
+        public PrivacyModel(ILogger<PrivacyModel> logger,Counter _counter)
         {
             _logger = logger;
+            Counter = _counter;
         }
+
+        public Counter Counter { get; }
 
         public void OnGet()
         {
+            Counter.Count++;
         }
     }
 

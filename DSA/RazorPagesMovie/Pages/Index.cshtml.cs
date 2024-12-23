@@ -27,7 +27,8 @@ namespace RazorPagesMovie.Pages
         public Menu Menu { get; private set; } //step 3b: allocate a property in this class for the razor cshtml page to access
         public void OnGet()
         {
-            _counter.Count++;
+            _counter.Count = _counter.Count + 1;
         }
+   
     }
 }

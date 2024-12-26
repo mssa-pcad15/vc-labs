@@ -20,7 +20,7 @@ public sealed class ExampleHostedService : IHostedService, IHostedLifecycleServi
 
     Task IHostedLifecycleService.StartingAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("1. StartingAsync has been called.");
+        _logger.LogInformation("1. StartingAsync has been called. the host is about to start.");
 
         return Task.CompletedTask;
     }
@@ -34,18 +34,22 @@ public sealed class ExampleHostedService : IHostedService, IHostedLifecycleServi
 
     Task IHostedLifecycleService.StartedAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("3. StartedAsync has been called.");
+        _logger.LogInformation("3. StartedAsync has been called. The Host has completed the startup routine");
 
         return Task.CompletedTask;
     }
 
     private void OnStarted()
     {
+        //this is the main logic
+        //every 30minutes, check if website is still working
+        // or sign up to be notified of something
         _logger.LogInformation("4. OnStarted has been called.");
     }
 
     private void OnStopping()
     {
+        // unsubscribe to things
         _logger.LogInformation("5. OnStopping has been called.");
     }
 

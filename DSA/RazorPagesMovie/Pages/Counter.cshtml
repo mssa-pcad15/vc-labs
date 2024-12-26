@@ -1,0 +1,12 @@
+﻿@page
+@model RazorPagesMovie.Pages.CounterModel
+
+<div class="text-info align-middle">Current counter value: @Model.Counter.Count </div>
+
+<form method="post">
+    <label class="form-label align-content-lg-start">Set Counter Value to:
+    <input asp-for="CounterValue" type="number" value="@Model.Counter.Count" class=" form-control form-range"/></label> <br />
+    <button type="submit" class="btn btn-lg btn-primary">Assign new value to Counter</button>
+
+</form>
+

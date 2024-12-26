@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSA", "DSA\DSA.csproj", "{B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSATest", "DSATest\DSATest.csproj", "{7560842C-3390-4D57-BF28-A7425F523C43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericHostDemo", "GenericHostDemo\GenericHostDemo.csproj", "{39BAB55B-16B0-4653-A53C-63182B6445CA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{7560842C-3390-4D57-BF28-A7425F523C43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7560842C-3390-4D57-BF28-A7425F523C43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7560842C-3390-4D57-BF28-A7425F523C43}.Release|Any CPU.Build.0 = Release|Any CPU
-		{39BAB55B-16B0-4653-A53C-63182B6445CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{39BAB55B-16B0-4653-A53C-63182B6445CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{39BAB55B-16B0-4653-A53C-63182B6445CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{39BAB55B-16B0-4653-A53C-63182B6445CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

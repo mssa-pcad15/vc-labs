@@ -43,12 +43,24 @@ namespace RazorPagesMovie
         public override int Count
         {
             get { //step 3: on Get of Count Prop, use TableClient table (see line32) to retreive the Count from Azure Table
-                Response<CounterRow> result = table.GetEntity<CounterRow>("0", "0");
-                return result.Value.Count;
+                try //put the GetEntity in Try Block
+                {
+                    Response<CounterRow> result = table.GetEntity<CounterRow>("0", "chinjila");
+                    return result.Value.Count;
+                }
+                catch (RequestFailedException rfe) { //GetEntity Failed, is it because the row is missing?
+                    if (rfe.ErrorCode == "404") { //
+                        CounterRow newRow = new CounterRow { PartitionKey = "0", RowKey = "chinjila", Count = 0 };
+                        table.AddEntity<CounterRow>(newRow);
+                    }
+                    return 0;
+                }
+
+                
             }
             set { //step 4: on Set of Count Prop, update Azure Table Record
 
-                CounterRow updatedRow = new CounterRow { PartitionKey = "0", RowKey = "0", Count = value };
+                CounterRow updatedRow = new CounterRow { PartitionKey = "0", RowKey = "chinjila", Count = value };
                 table.UpsertEntity<CounterRow>(updatedRow, TableUpdateMode.Replace);
             }
         

@@ -49,7 +49,7 @@ namespace RazorPagesMovie
                     return result.Value.Count;
                 }
                 catch (RequestFailedException rfe) { //GetEntity Failed, is it because the row is missing?
-                    if (rfe.ErrorCode == "404") { //
+                    if (rfe.ErrorCode == "ResourceNotFound") { //
                         CounterRow newRow = new CounterRow { PartitionKey = config["PartitionKey"], RowKey = config["RowKey"]!, Count = 0 };
                         table.AddEntity<CounterRow>(newRow);
                     }
@@ -74,4 +74,7 @@ namespace RazorPagesMovie
         public DateTimeOffset? Timestamp { get; set; }
         public ETag ETag { get; set; }
     }
+
+ 
+    
 }

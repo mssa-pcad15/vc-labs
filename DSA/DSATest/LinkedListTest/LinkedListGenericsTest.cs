@@ -16,7 +16,6 @@ namespace DSATest.LinkedListTest
         [TestMethod]
         public void LinkListConstructionTest()
         {
-
             LinkedList l = new ();
             Assert.IsNull(l.First);
         }

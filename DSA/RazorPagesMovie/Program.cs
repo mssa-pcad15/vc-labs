@@ -2,18 +2,19 @@
 using Azure.Data.Tables;
 using Microsoft.Extensions.DependencyInjection;
 using RazorPagesMovie;
+using Microsoft.Extensions.Configuration;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-string connstring = "DefaultEndpointsProtocol=https;AccountName=vc0316;AccountKey=49DVOVjSX96zUM6jgg0vnPSECKWQCOibRiJCt4ggSVpGBMJqUbboY9y7iy73kEm8ktaiveBa7PPQ+AStLTd1Tg==;EndpointSuffix=core.windows.net";
-string tableName = "counter";
-
+//read the ConnectionString and TableName from built-in ConfigurationService
 builder.Services.AddSingleton(
     typeof(TableClient),
-    new TableClient(connstring, tableName)
+    new TableClient(builder.Configuration["ConnectionString"], builder.Configuration["TableName"]) // this works!!
     );
 
 //builder.Services.AddTransient(typeof(Counter), typeof(DistributedCounter));

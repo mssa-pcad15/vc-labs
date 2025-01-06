@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RazorPagesMovie", "RazorPag
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project", "Project", "{4D7163AF-587C-4C13-93B4-4B95610D290E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudLinkedList", "CloudLinkedList\CloudLinkedList.csproj", "{59969B42-B3AB-48F8-98CB-D96AA1F845D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudLinkedList", "CloudLinkedList\CloudLinkedList.csproj", "{59969B42-B3AB-48F8-98CB-D96AA1F845D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsiteDownloader", "WebsiteDownloader\WebsiteDownloader.csproj", "{01D79655-E071-474E-8AD0-A7C58FD7350F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{59969B42-B3AB-48F8-98CB-D96AA1F845D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59969B42-B3AB-48F8-98CB-D96AA1F845D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59969B42-B3AB-48F8-98CB-D96AA1F845D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01D79655-E071-474E-8AD0-A7C58FD7350F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01D79655-E071-474E-8AD0-A7C58FD7350F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01D79655-E071-474E-8AD0-A7C58FD7350F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01D79655-E071-474E-8AD0-A7C58FD7350F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +57,7 @@ Global
 		{39BAB55B-16B0-4653-A53C-63182B6445CA} = {F04846A1-7B0E-47EF-B52E-0146A5340024}
 		{134E9B2A-1EA6-45AB-A6FA-F9EA583CB111} = {F04846A1-7B0E-47EF-B52E-0146A5340024}
 		{59969B42-B3AB-48F8-98CB-D96AA1F845D3} = {4D7163AF-587C-4C13-93B4-4B95610D290E}
+		{01D79655-E071-474E-8AD0-A7C58FD7350F} = {4D7163AF-587C-4C13-93B4-4B95610D290E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0A2D458D-C661-405A-96A2-1263B2FAA494}

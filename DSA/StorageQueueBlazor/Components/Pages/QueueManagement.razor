@@ -1,0 +1,42 @@
+﻿@page "/queuemanagement"
+@using Azure.Storage.Queues
+@using Azure.Storage.Queues.Models
+@rendermode InteractiveServer
+@inject QueueServiceClient queueServiceClient
+
+
+<h3>QueueManagement</h3>
+<ul>
+    @foreach (var item in queues)
+    {
+        <li>@item.Name</li>
+    }
+</ul>
+
+<input placeholder="name of new queue"  id="queue-name" @bind="queueName"/>
+<button @onclick="AddNewQueue">Add New Queue</button>
+@code {
+    private string queueName;
+    List<QueueItem> queues = new();
+    protected override async Task OnInitializedAsync()
+    {
+        await loadQueue();
+        await base.OnInitializedAsync();
+    }
+    private async Task AddNewQueue()
+    {
+        await queueServiceClient.CreateQueueAsync(queueName);
+        await loadQueue();
+        this.StateHasChanged();
+    }
+    private async Task loadQueue()
+    {
+        queues.Clear();
+        var result = queueServiceClient.GetQueuesAsync();
+
+        await foreach (QueueItem item in result)
+        {
+            queues.Add(item);
+        }
+    }
+}

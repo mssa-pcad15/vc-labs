@@ -3,13 +3,17 @@
 @using Azure.Storage.Queues.Models
 @rendermode InteractiveServer
 @inject QueueServiceClient queueServiceClient
-
+@inject NavigationManager _navigationManager
 
 <h3>QueueManagement</h3>
+<button @onclick="DeleteSelectedAsync">Delete Selected Queue</button>
 <ul>
     @foreach (var item in queues)
     {
-        <li>@item.Name</li>
+        <li>
+            <input type="checkbox" @onchange="@((e)=>handleCheckItem(item.Name,e))"/>
+            @item.Name
+        </li>
     }
 </ul>
 
@@ -18,6 +22,7 @@
 @code {
     private string queueName;
     List<QueueItem> queues = new();
+    List<string> queuesToRemove = new();
     protected override async Task OnInitializedAsync()
     {
         await loadQueue();
@@ -38,5 +43,26 @@
         {
             queues.Add(item);
         }
+    }
+    private void handleCheckItem(string queueName,ChangeEventArgs e)
+    {
+        if ((bool)e.Value)
+        {
+            queuesToRemove.Add(queueName);
+        }
+        else
+        {
+            queuesToRemove.Remove(queueName);
+        }
+        return;
+    }
+    private async Task DeleteSelectedAsync(MouseEventArgs e)
+    {
+        foreach (var item in queuesToRemove)
+        {
+            await queueServiceClient.DeleteQueueAsync(item);
+        }
+        queuesToRemove.Clear();
+        _navigationManager.Refresh(true);
     }
 }

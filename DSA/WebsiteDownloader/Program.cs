@@ -13,14 +13,16 @@ Uri[] sitesUrl = [
                 new Uri("https://weather.com"),
 ];
 
-ConcurrentQueue<Downloader> downloadersQueue = new();
+ConcurrentQueue<Downloader> downloadersQueue = new();//thread safe queue for subsquent parallel ope
 Parallel.ForEach(sitesUrl, site=> downloadersQueue.Enqueue(new Downloader(site))); // multi threaded
+
 //parallel forEach
 
 List<Task<int>> downloadTasks = new();
-while (!downloadersQueue.IsEmpty) {
-    if (downloadersQueue.TryDequeue(out Downloader downloader))
-    { downloadTasks.Add(downloader.DownloadAsync()); }
+
+while (downloadersQueue.TryDequeue(out Downloader downloader))
+{ 
+    downloadTasks.Add(downloader.DownloadAsync()); 
 }
 
 await Task.WhenAll(downloadTasks);

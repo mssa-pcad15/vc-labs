@@ -14,7 +14,7 @@ internal class Program
 
         // Add services to the container.
         builder.Services.AddRazorPages();
-
+        
         //read the ConnectionString and TableName from built-in ConfigurationService
         builder.Services.AddSingleton(
             typeof(TableClient),

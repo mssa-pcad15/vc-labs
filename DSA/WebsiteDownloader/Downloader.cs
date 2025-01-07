@@ -41,5 +41,23 @@ namespace WebsiteDownloader
             Console.WriteLine($"{fileName} written to disk.");
             return ResultBytes.Length;
         }
+
+        internal int Download()
+        {
+            int threadId = Environment.CurrentManagedThreadId;
+            Console.WriteLine($"Before await in GetByteArrayAsync: Thread ID {threadId}");
+
+            ResultBytes = _httpClient.GetByteArrayAsync(Website).Result;
+            Console.WriteLine($"{Website.ToString()} received. {ResultBytes.Length} bytes.");
+
+            threadId = Environment.CurrentManagedThreadId;
+            Console.WriteLine($"After await in GetByteArrayAsync: Thread ID {threadId}");
+
+            string fileName = $"sync-{_domain}-{Path.GetRandomFileName()[0..5]}.txt";
+            File.WriteAllBytes(fileName, ResultBytes);
+
+            Console.WriteLine($"{fileName} written to disk.");
+            return ResultBytes.Length;
+        }
     }
 }

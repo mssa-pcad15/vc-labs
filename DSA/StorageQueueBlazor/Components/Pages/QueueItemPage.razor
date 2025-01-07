@@ -1,0 +1,78 @@
+﻿@page "/queueitem/{QueueName}"
+@using Azure.Storage.Queues
+@rendermode InteractiveServer
+@inject QueueServiceClient queueServiceClient
+
+
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                @QueueName
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-3 align-self-center">Account Name : @qclient.AccountName </div>
+                        <div class="col-3 align-self-center">Max Message Size : @qclient.MessageMaxBytes </div>
+                        <div class="col-3 align-self-center">Uri : @qclient.Uri </div>
+                        <div class="col-3 align-self-center">Message Count : @messageCount </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container text-center">
+    <div class="row row-cols-1">
+        <div class="col">
+            <input type="text" class="form-control m-lg-2 w-25" placeholder="Message to Send" id="queue-message" @bind="message" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-primary" @onclick="@(()=>AddNewMessage())">Add New Message</button>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- A section to display some properties of the queue: use Azure SDK for Queue -->
+<!-- AccountName
+CanGenerateSasUri
+MaxPeekableMessages
+MessageMaxBytes
+MessagesUri
+Name-->
+<!-- A simple form with text and button that adds a message to the queue-->
+<!-- A Section with Button that retreive and list all items in the queue-->
+@code {
+    [Parameter]
+    public string QueueName { get; set; }
+
+    private QueueClient qclient;
+    private int messageCount;
+    private string message;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        qclient = queueServiceClient.GetQueueClient(QueueName);
+        var props = await qclient.GetPropertiesAsync();
+        messageCount = props.Value.ApproximateMessagesCount;
+        await base.OnParametersSetAsync();
+        return;
+    }
+
+    private async Task AddNewMessage()
+    {
+        await qclient.SendMessageAsync(message);
+        message = string.Empty;
+        await OnParametersSetAsync();
+    }
+
+   
+}

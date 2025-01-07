@@ -21,6 +21,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+//this section adds middleware to the pipeline
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
@@ -29,4 +30,4 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-app.Run();
+app.Run();//this blocks Main from exiting

@@ -1,9 +1,9 @@
-﻿@page "/queuemanagement"
+﻿@page "/"
 @using Azure.Storage.Queues
 @using Azure.Storage.Queues.Models
 @rendermode InteractiveServer
 @inject QueueServiceClient queueServiceClient
-@inject NavigationManager _navigationManager
+
 
 
 <div class="container-fluid">
@@ -12,9 +12,15 @@
     @foreach (var item in queues)
     {
         <li class="list-group-item">
-            <input type="checkbox" class="form-check-input me-1" id="@item.Name" @onchange="@((e)=>handleCheckItem(item.Name,e))" />
-            <label class="form-check-label" for="@item.Name">@item.Name</label>
+            <input type="checkbox" class="form-check-input me-1" id="@item.Name" @onchange="@((e) => handleCheckItem(item.Name,e))" />
+                <a href="/queueitem/@item.Name">
+                    <label class="form-check-label" for="@item.Name">
+                        @item.Name
+                   </label>
+                </a>
+            <span class="badge bg-secondary">@item.MessageCount</span>
         </li>
+      
     }
 </ul>
 </div>
@@ -25,23 +31,27 @@
             <input type="text" class="form-control m-lg-2 w-25" placeholder="name of new queue" id="queue-name" @bind="queueName" />
         </div>
     </div>
-    <div class="row justify-content-start">
-        <div class="col-2">
+    <div class="row">
+        <div class="col-2 ">
             <button type="button" class="btn btn-primary" @onclick="AddNewQueue">Add New Queue</button>
         </div> 
-        <div class="col-10">
+        <div class="col-10 align-self-lg-end">
             <button type="button" class="btn btn-danger" @onclick="DeleteSelectedAsync">Delete Selected Queue</button>
         </div>
     </div>
 </div>
 
 @code {
+    private class QueueItemWithCount
+    {
+        public string Name { get; set; }
+        public int MessageCount { get; set; }
+    }
     private string queueName;
-    List<QueueItem> queues = new();
+    List<QueueItemWithCount> queues = new();
     List<string> queuesToRemove = new();
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
         await loadQueue();
     }
     private async Task AddNewQueue()
@@ -53,15 +63,26 @@
     private async Task loadQueue()
     {
         queues.Clear();
-        var result = queueServiceClient.GetQueuesAsync();
+        var result = queueServiceClient.GetQueuesAsync(QueueTraits.Metadata);
 
         await foreach (QueueItem item in result)
         {
-            queues.Add(item);
+            var queueClient = queueServiceClient.GetQueueClient(item.Name);
+            var properties = await queueClient.GetPropertiesAsync();
+            queues.Add(new QueueItemWithCount
+                {
+                    Name = item.Name,
+                    MessageCount = properties.Value.ApproximateMessagesCount
+                });
         }
     }
     private void handleCheckItem(string queueName,ChangeEventArgs e)
     {
+        if (queueName is null)
+        {
+            throw new ArgumentNullException(nameof(queueName));
+        }
+
         if ((bool)e.Value)
         {
             queuesToRemove.Add(queueName);
@@ -79,7 +100,8 @@
             await queueServiceClient.DeleteQueueAsync(item);
         }
         queuesToRemove.Clear();
-        _navigationManager.Refresh(true);
+        await loadQueue();
+        this.StateHasChanged();
 
     }
 }

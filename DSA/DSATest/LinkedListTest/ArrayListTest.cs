@@ -38,7 +38,6 @@ namespace DSATest.LinkedListTest
             }
 
             List<Car> garage = new();
-            garage[0]
         }
     }
 }

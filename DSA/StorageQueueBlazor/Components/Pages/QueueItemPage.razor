@@ -1,0 +1,79 @@
+﻿@page "/queueitempage/{QueueName}"
+@using Azure.Storage.Queues
+@using Azure.Storage.Queues.Models
+@rendermode InteractiveServer
+@inject QueueServiceClient queueServiceClient
+@inject NavigationManager _navigationManager
+
+@code {
+    [Parameter]
+    public string QueueName { get; set; }
+    private QueueClient queueClient;
+    private QueueProperties queueProperties;
+    private string newMessage;
+    private List<PeekedMessage> peekedMessages = new();
+    private int maxPeekableMessages = 10; // Set your desired max peekable messages
+
+    protected override async Task OnParametersSetAsync()
+    {
+        queueClient = queueServiceClient.GetQueueClient(QueueName);
+        await LoadQueuePropertiesAsync();
+        await PeekMessages();
+    }
+
+    private async Task LoadQueuePropertiesAsync()
+    {
+        var response = await queueClient.GetPropertiesAsync();
+        queueProperties = response.Value;
+    }
+
+    private async Task AddMessage()
+    {
+        if (!string.IsNullOrWhiteSpace(newMessage))
+        {
+            await queueClient.SendMessageAsync(newMessage);
+            newMessage = string.Empty;
+            await PeekMessages(); // Refresh the peeked messages after adding a new one
+        }
+    }
+
+    private async Task PeekMessages()
+    {
+        peekedMessages.Clear();
+        var messages = await queueClient.PeekMessagesAsync(maxPeekableMessages);
+        if(messages.Value.Length > 0)
+        {
+            peekedMessages.AddRange(messages.Value);
+        }
+       
+    }
+}
+
+<h3>QueueItem</h3>
+
+<!-- A section to display some properties of the queue -->
+<div>
+    <p><strong>Account Name:</strong> @queueServiceClient.AccountName</p>
+    <p><strong>Can Generate SAS URI:</strong> @queueClient.CanGenerateSasUri</p>
+    <p><strong>Approximate Messages Count:</strong> @queueProperties.ApproximateMessagesCount</p>
+    <p><strong>Metadata:</strong> @queueProperties.Metadata</p>
+    <p><strong>Messages URI:</strong> @queueClient.Uri</p>
+    <p><strong>Name:</strong> @queueClient.Name</p>
+</div>
+
+<!-- A section to display peeked messages -->
+<div>
+    <h4>Peeked Messages (Max: @maxPeekableMessages)</h4>
+    <ul>
+        @foreach (var message in peekedMessages)
+        {
+            <li>@message.Body.ToString()</li>
+        }
+    </ul>
+</div>
+
+<!-- A simple form with text and button that adds a message to the queue -->
+<div>
+    <input type="text" @bind="newMessage" placeholder="Enter message" />
+    <button @onclick="AddMessage">Add Message</button>
+</div>

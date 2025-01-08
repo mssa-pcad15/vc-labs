@@ -45,21 +45,28 @@
         {
             peekedMessages.AddRange(messages.Value);
         }
-       
+
     }
 }
 
 <h3>QueueItem</h3>
 
 <!-- A section to display some properties of the queue -->
-<div>
-    <p><strong>Account Name:</strong> @queueServiceClient.AccountName</p>
-    <p><strong>Can Generate SAS URI:</strong> @queueClient.CanGenerateSasUri</p>
-    <p><strong>Approximate Messages Count:</strong> @queueProperties.ApproximateMessagesCount</p>
-    <p><strong>Metadata:</strong> @queueProperties.Metadata</p>
-    <p><strong>Messages URI:</strong> @queueClient.Uri</p>
-    <p><strong>Name:</strong> @queueClient.Name</p>
-</div>
+@if (queueProperties is not null)
+{
+    <div>
+        <p><strong>Account Name:</strong> @queueServiceClient.AccountName</p>
+        <p><strong>Can Generate SAS URI:</strong> @queueClient.CanGenerateSasUri</p>
+        <p><strong>Approximate Messages Count:</strong> @queueProperties.ApproximateMessagesCount</p>
+        <p><strong>Metadata:</strong> @queueProperties.Metadata</p>
+        <p><strong>Messages URI:</strong> @queueClient.Uri</p>
+        <p><strong>Name:</strong> @queueClient.Name</p>
+    </div>
+
+}else
+{
+    <div>Loading queue properties...</div>
+}
 
 <!-- A section to display peeked messages -->
 <div>

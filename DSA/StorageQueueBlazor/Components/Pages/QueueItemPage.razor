@@ -1,26 +1,28 @@
 ﻿@page "/queueitem/{QueueName}"
 @using Azure.Storage.Queues
+@using Azure.Storage.Queues.Models
+@using Microsoft.AspNetCore.Components.QuickGrid
 @rendermode InteractiveServer
 @inject QueueServiceClient queueServiceClient
 
 
 <div class="accordion" id="accordionExample">
     <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOne">
+        <h2 class="accordion-header">
+
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                 @QueueName
             </button>
         </h2>
-        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+        <div id="collapseOne" class="accordion-collapse show" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-                <div class="container">
+                
                     <div class="row">
                         <div class="col-3 align-self-center">Account Name : @qclient.AccountName </div>
                         <div class="col-3 align-self-center">Max Message Size : @qclient.MessageMaxBytes </div>
                         <div class="col-3 align-self-center">Uri : @qclient.Uri </div>
                         <div class="col-3 align-self-center">Message Count : @messageCount </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>
@@ -34,10 +36,36 @@
     </div>
     <div class="row">
         <div class="col">
-            <button type="button" class="btn btn-primary" @onclick="@(()=>AddNewMessage())">Add New Message</button>
-
+            <button type="button" class="btn btn-primary" @onclick="AddNewMessageAsync">Add New Message</button>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-primary" @onclick="@((e)=>ReceiveMessagesAsync(true))">Receive 5 Messages</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-primary" @onclick="@((e)=>ReceiveMessagesAsync(false))">Peek 5 Messages</button>
+        </div>
+    </div>
+    @if (messages.Count > 0)
+    {
+     <QuickGrid Items="@messagesGridSource">
+        <PropertyColumn Property="@(m => m.MessageId)" Sortable="true" />
+        <PropertyColumn Property="@(m => m.MessageText)" Sortable="true" />
+    </QuickGrid>
+
+    }
+    @if (peekedmessages.Count > 0)
+    {
+     <QuickGrid Items="@peekedmessages.AsQueryable()">
+        <PropertyColumn Property="@(m => m.MessageId)" Sortable="true" />
+        <PropertyColumn Property="@(m => m.MessageText)" Sortable="true" />
+    </QuickGrid>
+
+    }
 </div>
 
 
@@ -57,22 +85,46 @@ Name-->
     private QueueClient qclient;
     private int messageCount;
     private string message;
-
+    private List<QueueMessage> messages = new();
+    private List<PeekedMessage> peekedmessages = new();
+    private IQueryable<QueueMessage> messagesGridSource => messages.AsQueryable();
     protected override async Task OnParametersSetAsync()
     {
         qclient = queueServiceClient.GetQueueClient(QueueName);
+
         var props = await qclient.GetPropertiesAsync();
         messageCount = props.Value.ApproximateMessagesCount;
         await base.OnParametersSetAsync();
         return;
     }
 
-    private async Task AddNewMessage()
+    private async Task AddNewMessageAsync()
     {
         await qclient.SendMessageAsync(message);
         message = string.Empty;
         await OnParametersSetAsync();
     }
 
-   
+    private async Task ReceiveMessagesAsync(bool toDelete=true)
+    {
+        
+        
+        if (toDelete)
+        {
+            messages.Clear();
+            var result = await qclient.ReceiveMessagesAsync(5);
+            messages = result.Value.ToList();
+            List<Task> deleteTasks = new();
+            messages.ForEach(async m => deleteTasks.Add(qclient.DeleteMessageAsync(m.MessageId, m.PopReceipt)));
+            await Task.WhenAll(deleteTasks);
+        }
+        else
+        {
+            peekedmessages.Clear();
+            var result = await qclient.PeekMessagesAsync(5);
+            peekedmessages = result.Value.ToList();
+        }
+
+
+    }
 }

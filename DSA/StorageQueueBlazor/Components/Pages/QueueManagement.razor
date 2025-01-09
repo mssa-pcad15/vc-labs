@@ -8,21 +8,30 @@
 
 <div class="container-fluid">
     <h3 class="text-lg-center">Queue Management</h3>
-<ul class="list-group m-lg-2" >
-    @foreach (var item in queues)
+    @if (queues.Count == 0)
     {
-        <li class="list-group-item">
-            <input type="checkbox" class="form-check-input me-1" id="@item.Name" @onchange="@((e) => handleCheckItem(item.Name,e))" />
-                <a href="/queueitem/@item.Name">
-                    <label class="form-check-label" for="@item.Name">
-                        @item.Name
-                   </label>
-                </a>
-            <span class="badge bg-secondary">@item.MessageCount</span>
-        </li>
-      <QueueMessageManager QueueName="@item.Name"></QueueMessageManager>
+        <p>Loading queue...</p>
     }
-</ul>
+
+    else
+    {
+        <ul class="list-group m-lg-2">
+            @foreach (var item in queues)
+            {
+                <li class="list-group-item">
+                    <input type="checkbox" class="form-check-input me-1" id="@item.Name" @onchange="@((e) => handleCheckItem(item.Name,e))" />
+                    <a href="/queueitem/@item.Name">
+                        <label class="form-check-label" for="@item.Name">
+                            @item.Name
+                        </label>
+                    </a>
+                    <span class="badge bg-secondary">@item.MessageCount</span>
+                </li>
+
+            }
+        </ul>
+    }
+   
 </div>
 
 <div class="container text-center">

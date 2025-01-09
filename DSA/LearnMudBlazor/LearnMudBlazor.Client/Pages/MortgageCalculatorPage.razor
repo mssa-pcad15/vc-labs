@@ -1,0 +1,134 @@
+﻿@page "/mortgage"
+@page "/"
+@using MortgageCalc
+@using System.Net.Http.Headers
+@using System.Text
+<MudGrid>
+
+    <MudItem xs="12" sm="6">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+            <MudStack>
+                <MudNumericField @bind-Value="LoanDurationInYear" Min="5" Max="50" Label="Loan duration(in years)" Variant="Variant.Outlined" Step="5M" @onchange="CalculatePayment" />
+
+                <MudTextField Mask="@mask1"
+                @bind-Value="InterestRate" Label="Interest Rate" Variant="Variant.Outlined"
+                Adornment="Adornment.End" AdornmentText="%" AdornmentColor="Color.Info" @onchange="CalculatePayment" />
+
+                <MudSlider @bind-Value="PrincipalAmount"
+                Min="100000"
+                Max="2000000"
+                TickMarks="true" Step="100000" Color="Color.Info" @onchange="CalculatePayment">Principal: @PrincipalAmount.ToString("C0")</MudSlider>
+
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="CalculatePayment">Calculate Mortgage Payment</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="SendEmail">Send Email</MudButton>
+            </MudStack>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+            <MudStack>
+                @if (mortgage != null){
+                    <MudText>Monthly Payment: @mortgage.PaymentAmount.ToString("C")</MudText>
+                    <MudText>Total Payment: @mortgage.TotalPayment.ToString("C")</MudText>
+                    <MudText>Total Interest: @mortgage.TotalInterestPaid.ToString("C")</MudText>
+                    <div>
+                        <MudChart ChartType="ChartType.StackedBar"
+                        ChartOptions="@options"
+                        ChartSeries="@Series" @bind-SelectedIndex="Index" LegendPosition="@Position.Top" XAxisLabels="@XAxisLabels" Width="100%" Height="350px"></MudChart>
+                    </div>
+                }
+
+
+            </MudStack>
+
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12">
+
+        <MudDataGrid T="MortgageCalc.Payment" Items="@mortgage.Payments" Dense="true" Hover="true" Bordered="true">
+            <Columns>
+                <PropertyColumn Property="p => p.PaymentNumber" Title="Payment" />
+                <PropertyColumn Property="p => p.RemainingPrincipal" Format="@_selectedFormat" Title="Balance" />
+                <PropertyColumn Property="p => p.PrincipalAmount" Format="@_selectedFormat" Title="Principal Payment" />
+                <PropertyColumn Property="p => p.InterestAmount" Format="@_selectedFormat" Title="Interest Charge" />
+                <PropertyColumn Property="p => p.TotalInterestPaidToDate" Format="@_selectedFormat" Title="Interest Paid" />
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager T="MortgageCalc.Payment" PageSizeSelector="true" PageSizeOptions="@([5,10,15,20])" />
+            </PagerContent>
+        </MudDataGrid>
+
+
+    </MudItem>
+</MudGrid>
+@code {
+    private int Index = -1;
+    public decimal LoanDurationInYear { get; set; }
+    public decimal PrincipalAmount { get; set; }
+    public decimal InterestRate { get; set; }
+    private string _selectedFormat = "C0";
+    public IMask mask1 = new RegexMask(@"^\d{1,2}(\.)?(\d{1,2})?$");
+    private ChartOptions options = new ChartOptions() { YAxisTicks = 500, MaxNumYAxisTicks = 50 };
+    private Mortgage? mortgage = null;
+    private List<MortgageCalc.Payment> payments = new List<MortgageCalc.Payment>();
+
+
+    public List<ChartSeries> Series;
+
+    public string[] XAxisLabels;
+
+
+    override protected void OnInitialized()
+    {
+        LoanDurationInYear = 15M;
+        PrincipalAmount = 500000M;
+        InterestRate = 4.5M;
+        CalculatePayment();
+    }
+    private void CalculatePayment() {
+        mortgage = new Mortgage(PrincipalAmount, (int)LoanDurationInYear, InterestRate);
+        // Sample data points at regular intervals
+        int sampleInterval = 12; // Adjust this value to control the number of data points
+        var sampledPayments = mortgage.Payments.Where((p, index) => index % sampleInterval == 0).ToList();
+        Series = new List<ChartSeries>()
+        {
+            new ChartSeries() { Name = "Principal", Data = sampledPayments.Select(p => (double)p.PrincipalAmount).ToArray() },
+            new ChartSeries() { Name = "Interest", Data = sampledPayments.Select(p => (double)p.InterestAmount).ToArray() },
+        };
+        XAxisLabels = sampledPayments.Select(p => p.PaymentNumber.ToString()).ToArray();
+    }
+    private void SendEmail() { 
+
+        var client = new HttpClient();
+    
+        string content = @"
+    {
+        ""ishtml"":""false"",
+        ""sendto"":""victor@objectmage.com"",
+        ""name"":""Sample"",
+        ""replyTo"":""victor@objectmage.com"",
+        ""title"":""Testing RapidMail Api"",
+        ""body"":""Put your Text body here, if you want to send html just set the ishtml: true in the request body""
+    }";
+        var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri("https://rapidmail.p.rapidapi.com/"),
+                Headers =
+                    {
+                        { "x-rapidapi-key", "c2738f8bc0mshcc0331a25b7d018p1e7966jsne3e1b9d39117" },
+                        { "x-rapidapi-host", "rapidmail.p.rapidapi.com" },
+                    },
+                Content = new StringContent(content, Encoding.UTF8, "application/json")
+	
+            };
+        using (var response = client.SendAsync(request).Result)
+            {
+	            response.EnsureSuccessStatusCode();
+	            var body = response.Content.ReadAsStringAsync().Result;
+                Console.WriteLine(body);
+            }
+    }
+
+
+}

@@ -16,56 +16,56 @@
         </h2>
         <div id="collapseOne" class="accordion-collapse show" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-                
-                    <div class="row">
-                        <div class="col-3 align-self-center">Account Name : @qclient.AccountName </div>
-                        <div class="col-3 align-self-center">Max Message Size : @qclient.MessageMaxBytes </div>
-                        <div class="col-3 align-self-center">Uri : @qclient.Uri </div>
-                        <div class="col-3 align-self-center">Message Count : @messageCount </div>
-                    </div>
+
+                <div class="row">
+                    <div class="col-3 align-self-center">Account Name : @qclient.AccountName </div>
+                    <div class="col-3 align-self-center">Max Message Size : @qclient.MessageMaxBytes </div>
+                    <div class="col-3 align-self-center">Uri : @qclient.Uri </div>
+                    <div class="col-3 align-self-center">Message Count : @messageCount </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <div class="container text-center">
-    <div class="row row-cols-1">
+    <div class="row">
         <div class="col">
             <input type="text" class="form-control m-lg-2 w-25" placeholder="Message to Send" id="queue-message" @bind="message" />
         </div>
     </div>
     <div class="row">
-        <div class="col">
+        <div class="col-4">
             <button type="button" class="btn btn-primary" @onclick="AddNewMessageAsync">Add New Message</button>
         </div>
+        <div class="col-4">
+            <button type="button" class="btn  btn-outline-danger" @onclick="@((e)=>ReceiveMessagesAsync(true))">Receive 5 Messages</button>
+        </div>
+        <div class="col-4">
+            <button type="button" class="btn btn-secondary" @onclick="@((e)=>ReceiveMessagesAsync(false))">Peek 5 Messages</button>
+        </div>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <button type="button" class="btn btn-primary" @onclick="@((e)=>ReceiveMessagesAsync(true))">Receive 5 Messages</button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <button type="button" class="btn btn-primary" @onclick="@((e)=>ReceiveMessagesAsync(false))">Peek 5 Messages</button>
-        </div>
-    </div>
+    <div class="row m-3">
     @if (messages.Count > 0)
     {
-     <QuickGrid Items="@messagesGridSource">
-        <PropertyColumn Property="@(m => m.MessageId)" Sortable="true" />
-        <PropertyColumn Property="@(m => m.MessageText)" Sortable="true" />
-    </QuickGrid>
-
+       
+            <label>Received Messages</label>
+            <QuickGrid Items="@messagesGridSource">
+                <PropertyColumn Title="Message Id" Property="@(m => m.MessageId)" Sortable="true"  />
+                <PropertyColumn Title="Message" Property="@(m => m.Body.ToString())" Sortable="true" />
+            </QuickGrid>
+     
     }
     @if (peekedmessages.Count > 0)
     {
-     <QuickGrid Items="@peekedmessages.AsQueryable()">
-        <PropertyColumn Property="@(m => m.MessageId)" Sortable="true" />
-        <PropertyColumn Property="@(m => m.MessageText)" Sortable="true" />
-    </QuickGrid>
-
+            <label>Peeked Messages</label>
+            <QuickGrid Items="@peekedmessagesGridSource">
+              <PropertyColumn Title="Message Id" Property="@(m => m.MessageId)" Sortable="true" />
+               <PropertyColumn Title="Message" Property="@(m => m.Body.ToString())" Sortable="true" />
+            </QuickGrid>
     }
+    </div>
 </div>
 
 
@@ -88,12 +88,13 @@ Name-->
     private List<QueueMessage> messages = new();
     private List<PeekedMessage> peekedmessages = new();
     private IQueryable<QueueMessage> messagesGridSource => messages.AsQueryable();
+    private IQueryable<PeekedMessage> peekedmessagesGridSource => peekedmessages.AsQueryable();
     protected override async Task OnParametersSetAsync()
     {
         qclient = queueServiceClient.GetQueueClient(QueueName);
 
-        var props = await qclient.GetPropertiesAsync();
-        messageCount = props.Value.ApproximateMessagesCount;
+        await UpdateMessageCountAsync();
+
         await base.OnParametersSetAsync();
         return;
     }
@@ -102,29 +103,33 @@ Name-->
     {
         await qclient.SendMessageAsync(message);
         message = string.Empty;
-        await OnParametersSetAsync();
+        await UpdateMessageCountAsync();
     }
 
     private async Task ReceiveMessagesAsync(bool toDelete=true)
     {
-        
-        
+
+
         if (toDelete)
         {
-            messages.Clear();
             var result = await qclient.ReceiveMessagesAsync(5);
             messages = result.Value.ToList();
             List<Task> deleteTasks = new();
             messages.ForEach(async m => deleteTasks.Add(qclient.DeleteMessageAsync(m.MessageId, m.PopReceipt)));
             await Task.WhenAll(deleteTasks);
+            await UpdateMessageCountAsync();
         }
         else
         {
-            peekedmessages.Clear();
             var result = await qclient.PeekMessagesAsync(5);
             peekedmessages = result.Value.ToList();
         }
 
 
+    }
+    private async Task UpdateMessageCountAsync()
+    {
+        var props = await qclient.GetPropertiesAsync();
+        messageCount = props.Value.ApproximateMessagesCount;
     }
 }

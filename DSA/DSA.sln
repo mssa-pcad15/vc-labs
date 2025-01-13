@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearnMudBlazor.Client", "Le
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorWithAuth", "RazorWithAuth\RazorWithAuth.csproj", "{17F54E88-E008-4F6D-B79B-1F770F3BA778}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearnEF", "LearnEF\LearnEF.csproj", "{B4D5925A-3632-4B82-88DA-44B1F604230D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{17F54E88-E008-4F6D-B79B-1F770F3BA778}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17F54E88-E008-4F6D-B79B-1F770F3BA778}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17F54E88-E008-4F6D-B79B-1F770F3BA778}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4D5925A-3632-4B82-88DA-44B1F604230D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4D5925A-3632-4B82-88DA-44B1F604230D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4D5925A-3632-4B82-88DA-44B1F604230D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4D5925A-3632-4B82-88DA-44B1F604230D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +92,7 @@ Global
 		{0499AA0F-2B73-4226-9596-99690799FFDE} = {4D7163AF-587C-4C13-93B4-4B95610D290E}
 		{2BA78E73-8E22-47CF-98BD-85BB841A689A} = {4D7163AF-587C-4C13-93B4-4B95610D290E}
 		{17F54E88-E008-4F6D-B79B-1F770F3BA778} = {4D7163AF-587C-4C13-93B4-4B95610D290E}
+		{B4D5925A-3632-4B82-88DA-44B1F604230D} = {F04846A1-7B0E-47EF-B52E-0146A5340024}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0A2D458D-C661-405A-96A2-1263B2FAA494}

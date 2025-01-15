@@ -1,0 +1,35 @@
+﻿@page "/"
+@using AWBlazor.EFClass
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@rendermode InteractiveServer
+
+@inject IDbContextFactory<AdventureWorksLtContext> dbFactory
+
+<PageTitle>Customers who has placed orders:</PageTitle>
+
+<h1>Customer List</h1>
+<QuickGrid Items="gridSource" Pagination="pagination">
+    <PropertyColumn Property="@((Customer cust) => cust.CompanyName)" Sortable="true" />
+    <PropertyColumn Property="@(c => c.FirstName)" Sortable="true" />
+    <PropertyColumn Property="@(c => c.LastName)" Sortable="true" />
+    <PropertyColumn Property="@(c => c.SalesPerson)" Sortable="true" />
+    <PropertyColumn Property="@(c => c.SalesOrderHeaders.Count)" Title="Order Count" Sortable="true" />
+    <PropertyColumn Property="@(c => c.SalesOrderHeaders.Sum(o=> o.TotalDue))" Title="Order Total" Sortable="true" />
+    <PropertyColumn Property="@(c => c.ModifiedDate)" Format="yyyy-MM-dd" Sortable="true" />
+</QuickGrid>
+<Paginator State="pagination" />
+
+
+@code{
+    private AdventureWorksLtContext? _context = default;
+    IQueryable<Customer>? gridSource;
+    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
+    protected override void OnInitialized()
+    {
+        _context = dbFactory.CreateDbContext();
+        
+        gridSource = _context.Customers.Include("SalesOrderHeaders").Where(c => c.SalesOrderHeaders.Count > 0);
+        base.OnInitialized();
+    }
+}

@@ -1,0 +1,52 @@
+﻿@page "/productcategories/details"
+@using Microsoft.EntityFrameworkCore
+@using AWBlazor.EFClass
+@inject IDbContextFactory<AWBlazor.EFClass.AdventureWorksLtContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>ProductCategory</h2>
+    <hr />
+    @if (productcategory is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">ParentProductCategoryId</dt>
+            <dd class="col-sm-10">@productcategory.ParentProductCategoryId</dd>
+            <dt class="col-sm-2">Name</dt>
+            <dd class="col-sm-10">@productcategory.Name</dd>
+            <dt class="col-sm-2">Rowguid</dt>
+            <dd class="col-sm-10">@productcategory.Rowguid</dd>
+            <dt class="col-sm-2">ModifiedDate</dt>
+            <dd class="col-sm-10">@productcategory.ModifiedDate</dd>
+        </dl>
+        <div>
+            <a href="@($"/productcategories/edit?productcategoryid={productcategory.ProductCategoryId}")">Edit</a> |
+            <a href="@($"/productcategories")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private ProductCategory? productcategory;
+
+    [SupplyParameterFromQuery]
+    private int ProductCategoryId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        productcategory = await context.ProductCategories.FirstOrDefaultAsync(m => m.ProductCategoryId == ProductCategoryId);
+
+        if (productcategory is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

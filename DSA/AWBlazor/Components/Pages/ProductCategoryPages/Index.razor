@@ -1,0 +1,39 @@
+﻿@page "/productcategories"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using AWBlazor.EFClass
+
+@implements IAsyncDisposable
+@inject IDbContextFactory<AWBlazor.EFClass.AdventureWorksLtContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="productcategories/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.ProductCategories">
+    <PropertyColumn Property="productcategory => productcategory.ParentProductCategoryId" />
+    <PropertyColumn Property="productcategory => productcategory.Name" />
+    <PropertyColumn Property="productcategory => productcategory.Rowguid" />
+    <PropertyColumn Property="productcategory => productcategory.ModifiedDate" />
+
+    <TemplateColumn Context="productcategory">
+        <a href="@($"productcategories/edit?productcategoryid={productcategory.ProductCategoryId}")">Edit</a> |
+        <a href="@($"productcategories/details?productcategoryid={productcategory.ProductCategoryId}")">Details</a> |
+        <a href="@($"productcategories/delete?productcategoryid={productcategory.ProductCategoryId}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private AdventureWorksLtContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TreeCommand": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\victor"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+﻿{
+  "schema": 1,
+  "description": "Given a date of birth, we will tell you your fortune today!",
+  "execution_settings": {
+    "default": {
+      "max_tokens": 200,
+      "temperature": 0.9,
+      "top_p": 0.0,
+      "presence_penalty": 0.4,
+      "frequency_penalty": 0.5
+    }
+  },
+  "input_variables": [
+    {
+      "name": "birthDate",
+      "description": "Date of birth",
+      "default": ""
+    }
+  ]
+
+}

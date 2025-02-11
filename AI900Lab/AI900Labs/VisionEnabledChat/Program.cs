@@ -5,12 +5,12 @@ using OpenAI.Chat; // Required for Passwordless auth
 
 Console.WriteLine(new string('*',80));
 Console.WriteLine("Vision Chat with Remote URL and Key Auth");
-await VisionChatWithKeyAuthRemoteURL();
+//await VisionChatWithKeyAuthRemoteURL();
 
 
 Console.WriteLine(new string('*', 80));
 Console.WriteLine("Vision Chat with Local Binary Data and Key Auth");
-await VisionChatWithKeyAuthByteData();
+//await VisionChatWithKeyAuthByteData();
 
 
 Console.WriteLine(new string('*', 80));

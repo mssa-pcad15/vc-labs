@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "secrets1": {
+      "type": "secrets.user"
+    },
+    "appConfig1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('serviceConnectorResourceGroupName')]/providers/Microsoft.ServiceLinker/locations/eastus/connectors/AppConfig_8BAB8E158A",
+      "secretStore": "LocalSecretsFile",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.AppConfiguration/configurationStores/vcaz204config",
+      "type": "appConfig.azure",
+      "connectionId": "AppConfig"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+﻿@page
+@model DotnetSample.Pages.ShowConfigModel
+@{
+    ViewData["Title"] = "Configuration Values";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var config in Model.ConfigurationValues)
+        {
+            <tr>
+                <td>@config.Key</td>
+                <td>@config.Value</td>
+            </tr>
+        }
+    </tbody>
+</table>

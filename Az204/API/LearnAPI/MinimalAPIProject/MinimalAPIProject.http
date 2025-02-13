@@ -1,0 +1,40 @@
+﻿@MinimalAPIProject_HostAddress = https://localhost:7273
+
+GET {{MinimalAPIProject_HostAddress}}/todoitems
+
+###
+
+POST {{MinimalAPIProject_HostAddress}}/todoitems
+content-type: application/json
+
+{
+  "name": "Item1",
+  "isComplete": false
+}
+
+###
+
+GET {{MinimalAPIProject_HostAddress}}/todoitems/complete
+
+###
+
+@id=1
+GET {{MinimalAPIProject_HostAddress}}/todoitems/{{id}}
+
+
+###
+
+DELETE {{MinimalAPIProject_HostAddress}}/todoitems/1
+
+###
+
+PUT {{MinimalAPIProject_HostAddress}}/todoitems/1
+content-type: application/json
+
+{
+  "name": "Item1-updated",
+  "isComplete": true
+}
+###
+
+GET http://localhost:7019/api/QuickStartHttp

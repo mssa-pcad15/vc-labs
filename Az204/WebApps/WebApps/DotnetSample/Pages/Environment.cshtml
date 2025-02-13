@@ -1,0 +1,25 @@
+﻿@page
+@model DotnetSample.Pages.EnvironmentModel
+@{
+    ViewData["Title"] = "Environment Variables";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var envVar in Model.EnvironmentVariables)
+        {
+            <tr>
+                <td>@envVar.Key</td>
+                <td>@envVar.Value</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,8 @@
+@LearnAzFunction_HostAddress = http://localhost:7019/api/DurableFanoutFanIn_HttpStart
+
+POST {{LearnAzFunction_HostAddress}}
+Content-Type: application/json
+
+{
+  "path": "C:\\TempDir"
+}

@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:GetStartedApp.ViewModels"
+			 xmlns:views="clr-namespace:GetStartedApp.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="GetStartedApp.Views.MainView"
+             x:DataType="vm:MainViewModel"
+			 xmlns:model="using:GetStartedApp.Models"
+			 >
+	<!-- remember to add the needed namespace model -->
+	<!-- xmlns:model="using:BasicDataTemplateSample.Models" -->
+	
+	
+	
+	
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainViewModel />
+  </Design.DataContext>
+	<TabControl>
+		<TabItem Header="Temp Convert">
+		
+				<StackPanel Orientation="Vertical">
+					<Border Margin="5" CornerRadius="10" Background="LightBlue">
+					<TextBlock Margin="5"
+							   FontSize="24"
+							   Foreground="Black"
+							   HorizontalAlignment="Center"
+							   Text="Temperature Converter">
+					</TextBlock>
+				</Border>
+		
+				<Grid Margin="5"
+					  HorizontalAlignment="Center"
+					  ColumnDefinitions="120, 100"
+					  RowDefinitions="Auto, Auto, Auto">
+					<TextBlock Grid.Column="0" Grid.Row="0" Margin="5" Text="Celsius"  VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
+					<TextBox Name="Celsius" Grid.Column="1" Grid.Row="0" Margin="5" TextChanged="TextBox_TextChanged"></TextBox>
+					<TextBlock Grid.Column="0" Grid.Row="1" Margin="5" Text="Fahrenheit"  VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
+					<TextBox Name="Fahrenheit" IsReadOnly="True"  Grid.Column="1" Grid.Row="1" Margin="5"></TextBox>
+					<Button HorizontalAlignment="Right" Grid.Row="2" Grid.ColumnSpan="2" Margin="0 20" Click="Button_Click">Calculate</Button>
+				</Grid>
+		
+				</StackPanel>
+		</TabItem>
+		
+		<TabItem Header="Data Template Demo1">
+				<views:DataTemplateDemo />
+		</TabItem>
+	</TabControl>
+</UserControl>

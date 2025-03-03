@@ -1,0 +1,7 @@
+﻿@LearnAzFunction_HostAddress =  http://localhost:7019/api/TableOutputFunction
+
+POST  {{LearnAzFunction_HostAddress}}
+Content-Type: plain/text
+
+Hello World Test 123
+###

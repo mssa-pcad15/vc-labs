@@ -16,8 +16,8 @@ namespace LearnAzFunction
         }
 
         [Function("QueueGenerator")]
-        [QueueOutput("output-queue",Connection ="QueueConnectionString")]
-        public string[] Run([TimerTrigger("*/10 * * * * *")] TimerInfo myTimer)
+        [QueueOutputAttribute("output-queue",Connection ="QueueConnectionString")]
+        public string[] Run([TimerTrigger("* * */10 * * *")] TimerInfo myTimer)
         {
             // Use a string array to return more than one message.
             string[] messages = { $"Hello-{DateTime.Now.ToLongTimeString()}", $"World-{DateTime.Now.ToLongTimeString()}" };

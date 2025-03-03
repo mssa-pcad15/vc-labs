@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "TestRestart": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

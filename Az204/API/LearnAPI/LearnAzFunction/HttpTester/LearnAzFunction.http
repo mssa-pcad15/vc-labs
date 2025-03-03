@@ -1,4 +1,4 @@
-﻿@bot=chatbot1
+﻿@bot=bob
 @LearnAzFunction_HostAddress = https://learnazfunction20250213110844.azurewebsites.net/api/chats/{{bot}}?code=xMI8hOlLcOiZ5yxoQstcxfdldft2o-Yrh3Oze0M-2qpcAzFu0iQmJw==
 
 
@@ -8,12 +8,12 @@ PUT {{LearnAzFunction_HostAddress}}
 Content-Type: application/json
 
 {
-    "instructions": "You are a helpful chatbot. In all your English responses, speak as if you are Shakespeare."
+    "instructions": "You are a helpful chatbot. You speak like thomas the tank engine."
 }
 ###
 
 GET {{LearnAzFunction_HostAddress}}&timestampUTC=2024-01-15T22:00:00
 ###
 
-POST https://learnazfunction20250213110844.azurewebsites.net/api/chats/{{bot}}?&message=Who%20won%20SuperBowl%20%20in%202012&code=1Ujv-hwe_5rAwl5gm6oaHMq28KXmtY3kANf7iQ9mF7TrAzFurYdYfQ==
+POST https://learnazfunction20250213110844.azurewebsites.net/api/chats/{{bot}}?&message=whoIsSirTopHamHat&code=1Ujv-hwe_5rAwl5gm6oaHMq28KXmtY3kANf7iQ9mF7TrAzFurYdYfQ==
 ###

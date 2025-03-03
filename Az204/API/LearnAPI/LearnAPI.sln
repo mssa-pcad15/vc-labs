@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalAPIProject", "MinimalAPIProject\MinimalAPIProject.csproj", "{4614F3FB-E782-4872-A470-80B16E7326A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearnAzFunction", "LearnAzFunction\LearnAzFunction.csproj", "{256EDEBA-35AE-4FFE-BA32-71BDE74C41A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DockerBlazor", "DockerBlazor\DockerBlazor.csproj", "{B4090311-1658-428F-A5D0-778C4A79BC72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRestart", "TestRestart\TestRestart.csproj", "{89B145CD-C30B-4827-A1D4-F3EFCDBD08B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{256EDEBA-35AE-4FFE-BA32-71BDE74C41A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{256EDEBA-35AE-4FFE-BA32-71BDE74C41A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{256EDEBA-35AE-4FFE-BA32-71BDE74C41A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4090311-1658-428F-A5D0-778C4A79BC72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4090311-1658-428F-A5D0-778C4A79BC72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4090311-1658-428F-A5D0-778C4A79BC72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4090311-1658-428F-A5D0-778C4A79BC72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89B145CD-C30B-4827-A1D4-F3EFCDBD08B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89B145CD-C30B-4827-A1D4-F3EFCDBD08B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89B145CD-C30B-4827-A1D4-F3EFCDBD08B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89B145CD-C30B-4827-A1D4-F3EFCDBD08B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

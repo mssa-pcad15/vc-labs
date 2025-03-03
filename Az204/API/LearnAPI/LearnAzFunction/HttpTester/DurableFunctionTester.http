@@ -1,0 +1,9 @@
+@LearnAzFunction_HostAddress = http://localhost:7019/api/DurableQuickStart_HttpStart
+@id = abb635803c80465eb28e686dcfc51fd4
+POST {{LearnAzFunction_HostAddress}}
+Content-Type: application/json
+
+{}
+
+###
+GET http://localhost:7019/runtime/webhooks/durabletask/instances/{{id}}?code=2ihp96Esj4VJHyFNsNjWTvYYCoqZ1HReJuQ1DRbz_JSPAzFulma71g=="

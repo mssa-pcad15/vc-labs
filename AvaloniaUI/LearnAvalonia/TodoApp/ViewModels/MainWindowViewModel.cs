@@ -16,8 +16,9 @@ namespace TodoApp.ViewModels
         /// <summary>
         /// Returns if a new Item can be added. We require to have the NewItem some Text
         /// </summary>
+        
         private bool CanAddItem() => !string.IsNullOrWhiteSpace(NewItemContent);
-
+        
         [RelayCommand(CanExecute = nameof(CanAddItem))]
         private void AddItem()
         {

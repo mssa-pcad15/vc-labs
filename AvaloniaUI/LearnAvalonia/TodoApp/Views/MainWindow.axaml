@@ -52,7 +52,7 @@
 				 Text="{Binding NewItemContent}"
 				 Watermark="Add a new Item">
 			<TextBox.InnerRightContent>
-				<Button Command="{Binding AddItemCommand}">
+				<Button Command="{Binding AddItemCommand}" IsVisible="{Binding Path='AddItemCommand.CanExecute()'}">
 					Add
 					<!-- <PathIcon Data="{DynamicResource AcceptIconData}" Foreground="Green" /> -->
 				</Button>

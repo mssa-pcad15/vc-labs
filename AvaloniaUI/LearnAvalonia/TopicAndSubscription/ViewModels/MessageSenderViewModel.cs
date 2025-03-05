@@ -57,10 +57,10 @@ namespace TopicAndSubscription.ViewModels
                 );
 
 
-            ReceiveMessagesAsync(subscriptionAllOrders, Sub1);
-            ReceiveMessagesAsync(subscriptionColorRed, Sub2);
-            ReceiveMessagesAsync(subscriptionColorBlueSize10Orders, Sub3);
-            ReceiveMessagesAsync(subscriptionHighPriorityRedOrders, Sub4);
+            _ = ReceiveMessagesAsync(subscriptionAllOrders, Sub1);
+            _ = ReceiveMessagesAsync(subscriptionColorRed, Sub2);
+            _ = ReceiveMessagesAsync(subscriptionColorBlueSize10Orders, Sub3);
+            _ = ReceiveMessagesAsync(subscriptionHighPriorityRedOrders, Sub4);
 
         }
 

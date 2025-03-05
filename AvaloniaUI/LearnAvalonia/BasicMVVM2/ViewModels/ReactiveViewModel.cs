@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BasicMVVM2.ViewModels
 {
-    public class ReactiveViewModel : ViewModelBase
+    public class ReactiveViewModel : ReactiveObject
     {
         private string? _Name; // This is our backing field for Name
 

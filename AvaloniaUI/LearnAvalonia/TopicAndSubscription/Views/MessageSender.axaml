@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:model="using:TopicAndSubscription.ViewModels"
+             x:Class="TopicAndSubscription.Views.MessageSender">
+	<UserControl.DataTemplates>
+		<DataTemplate DataType="model:Order"> 
+			<StackPanel>
+				<TextBlock Text="{Binding Color,  StringFormat='Color: {0}'}}" />
+				<TextBlock Text="{Binding Quantity,  StringFormat='Quantity: {0}'}}" />
+				<TextBlock Text="{Binding Quantity,  StringFormat='Priority: {0}'}}" />
+			</StackPanel>
+		</DataTemplate>
+	</UserControl.DataTemplates>
+
+		<StackPanel HorizontalAlignment="Center" >
+			<Button Content="Send Message" Command="{Binding SendTestMessagesCommand}" />
+			<StackPanel FlowDirection="LeftToRight" Orientation="Horizontal" Margin="20">
+				<StackPanel Margin="10">
+					<TextBlock Text="All" />
+					<ListBox ItemsSource="{Binding Sub1}" ScrollViewer.IsScrollChainingEnabled="true"/>
+				</StackPanel>
+				<StackPanel  Margin="10">
+					<TextBlock Text="ColorRed" />
+					<ListBox ItemsSource="{Binding Sub2}" ScrollViewer.IsScrollChainingEnabled="true" />
+				</StackPanel>
+				<StackPanel Margin="10">
+					<TextBlock Text="ColorBlueSize10Orders" />
+					<ListBox ItemsSource="{Binding Sub3}" ScrollViewer.IsScrollChainingEnabled="true"/>
+				</StackPanel>
+				<StackPanel Margin="10">
+					<TextBlock Text="HighPriorityOrders" />
+					<ListBox ItemsSource="{Binding Sub4}" ScrollViewer.IsScrollChainingEnabled="true"/>
+				</StackPanel>
+			</StackPanel>
+		</StackPanel>
+
+</UserControl>

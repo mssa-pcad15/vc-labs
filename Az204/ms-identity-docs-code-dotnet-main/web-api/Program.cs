@@ -1,6 +1,7 @@
 // <ms_docref_import_types>
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.Identity.Web;
 // </ms_docref_import_types>
 
@@ -8,10 +9,16 @@ using Microsoft.Identity.Web;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+
 builder.Services.AddAuthorization(config =>
 {
     config.AddPolicy("AuthZPolicy", policyBuilder =>
-        policyBuilder.Requirements.Add(new ScopeAuthorizationRequirement() { RequiredScopesConfigurationKey = $"AzureAd:Scopes" }));
+        policyBuilder.Requirements.Add(
+            new ScopeAuthorizationRequirement() { RequiredScopesConfigurationKey = $"AzureAd:Scopes" }
+            //new AssertionRequirement(
+            //    ctx=> DateTime.Now.Minute % 2 != 0
+            //    ) 
+            ));
 });
 // </ms_docref_add_msal>
 
@@ -27,7 +34,7 @@ var weatherSummaries = new[]
 };
 
 // <ms_docref_protect_endpoint>
-app.MapGet("/weatherforecast", [Authorize(Policy = "AuthZPolicy")] () =>
+app.MapGet("/weatherforecast", [Authorize(Roles ="ForecastReader")] () =>
 {
     var forecast = Enumerable.Range(1, 5).Select(index =>
        new WeatherForecast

@@ -1,0 +1,15 @@
+﻿@page "/"
+@using StackExchange.Redis
+@inject IConnectionMultiplexer Redis
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+@code {
+
+    protected override void OnInitialized()
+    {
+        Redis.GetDatabase().StringSet("a", "apple");
+    }
+}
